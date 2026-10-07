@@ -39,6 +39,9 @@ Validation manifests describe the checks performed on the source baseline. Detai
 
 ## Create an independent project
 
+Use the clone/export workflow for this LFS-backed baseline. GitHub's built-in
+"Use this template" feature [does not support repositories containing Git LFS files](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+
 ```powershell
 python Scripts/New-BaselineProject.py C:/Development/Game/MyNextProject --name "My Next Project"
 ```
