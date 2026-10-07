@@ -1,0 +1,25 @@
+{
+  "exported_utc": "2026-10-07T03:13:50.740942+00:00",
+  "name": "Lyra GASP 5.8 Template",
+  "project_id": "954D2F9FAF8245F3A196B7638838E060",
+  "project": "src/LyraStarterGame.uproject",
+  "startup_map": "/Game/Maps/L_TraversalGym",
+  "native_modules": [
+    "LyraGame",
+    "LyraEditor"
+  ],
+  "file_count": 13703,
+  "bytes": 8368384271,
+  "excluded": [
+    ".git",
+    ".vs",
+    "Binaries",
+    "DerivedDataCache",
+    "Intermediate",
+    "Saved",
+    "__pycache__",
+    "bin",
+    "obj"
+  ],
+  "independent_files": true
+}

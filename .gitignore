@@ -1,0 +1,13 @@
+Artifacts/
+src/Binaries/
+src/DerivedDataCache/
+src/Intermediate/
+src/Saved/
+src/.vs/
+src/*.sln
+src/*.slnx
+src/Plugins/**/Binaries/
+src/Plugins/**/Intermediate/
+src/Build/Scripts/obj/
+src/Build/Scripts/bin/
+__pycache__/
