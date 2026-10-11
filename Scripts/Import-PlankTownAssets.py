@@ -108,8 +108,10 @@ for category,names in [('Player',['JungleTotemScout']),('Headpieces',['StrawHat'
             definition=asset('DA_'+name,folder,u.PlankTownHeadpieceDefinition,factory)
             definition.set_editor_property('display_name',u.Text({'StrawHat':'Straw Hat','FisherHat':'Fisher Hat','MushroomCap':'Mushroom Cap','FestiveHeaddress':'Festive Headdress'}[name]))
             definition.set_editor_property('mesh',mesh)
-            # The cap includes an underside/stem: seat its brim on the scalp.
-            definition.set_editor_property('wear_transform',u.Transform(location=u.Vector(0,0,-18 if name=='MushroomCap' else 0)))
+            # Seat the everyday hats closer to the scalp; the headdress keeps
+            # its original fit. The mushroom offset also buries its stem.
+            wear_z={'StrawHat':-8,'FisherHat':-6,'MushroomCap':-23,'FestiveHeaddress':0}
+            definition.set_editor_property('wear_transform',u.Transform(location=u.Vector(0,0,wear_z[name])))
             save(definition)
             factory=u.BlueprintFactory()
             factory.set_editor_property('parent_class',u.PlankTownHeadpiecePickup)
