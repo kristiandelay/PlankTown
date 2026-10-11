@@ -621,8 +621,9 @@ void ABaselineHUD::DrawHUD()
         if (Riding->IsMounted())
         {
             DrawText(TEXT("Riding Moku"),FLinearColor(.8f,1.f,.7f),24,50);
-            DrawText(TEXT("WASD Ride   Shift Run   E Dismount"),FLinearColor::White,24,H-54,nullptr,1.3f);
-            if (Riding->LastInteractionResult==TEXT("Move to clear ground to dismount"))
+            DrawText(TEXT("WASD Ride   Shift Run   Space Jump   E Dismount"),FLinearColor::White,24,H-54,nullptr,1.3f);
+            if (Riding->LastInteractionResult==TEXT("Move to clear ground to dismount")
+                || Riding->LastInteractionResult==TEXT("Wait until Moku lands to dismount"))
                 DrawText(Riding->LastInteractionResult,FLinearColor(1.f,.8f,.4f),24,H-82,nullptr,1.2f);
             return;
         }

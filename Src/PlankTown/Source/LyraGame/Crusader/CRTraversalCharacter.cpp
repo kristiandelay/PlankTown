@@ -190,7 +190,10 @@ void UCRTraversalHeroComponent::InitializePlayerInput(UInputComponent* PlayerInp
         BindPhysical(TEXT("Tackle"), &UBaselinePhysicalInteractionComponent::Tackle);
         BindPhysical(TEXT("Takedown"), &UBaselinePhysicalInteractionComponent::Takedown);
         if (auto* Action = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/IA_Jump.IA_Jump")))
+        {
             Input->BindAction(Action, ETriggerEvent::Started, Character->PhysicalInteraction.Get(), &UBaselinePhysicalInteractionComponent::RequestRecovery);
+            Input->BindAction(Action, ETriggerEvent::Started, Character->Riding.Get(), &UPlankTownRiderComponent::InputJump);
+        }
         if (auto* Action = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/IA_Aim.IA_Aim")))
         {
             Input->BindAction(Action, ETriggerEvent::Started, Character->BaselineEquipment.Get(), &UBaselineEquipmentComponent::BeginAim);

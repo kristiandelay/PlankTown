@@ -63,7 +63,7 @@ assert u.CRBlueprintTools.configure_mount_socket(mesh)
 skeleton=mesh.get_editor_property('skeleton')
 save(mesh);save(skeleton);save(mesh.get_editor_property('physics_asset'))
 clips={}
-for name in ['Idle','Walk','Run']:
+for name in ['Idle','Walk','Run','JumpRise','JumpFall','Land']:
     options=u.FbxImportUI()
     for key,value in dict(import_mesh=False,import_as_skeletal=True,mesh_type_to_import=u.FBXImportType.FBXIT_ANIMATION,
         original_import_type=u.FBXImportType.FBXIT_ANIMATION,automated_import_should_detect_type=False,
@@ -77,13 +77,16 @@ factory=u.BlendSpaceFactory1D();factory.target_skeleton=skeleton
 blend=asset('BS_'+NAME,FOLDER+'/Animations',u.BlendSpace1D,factory)
 factory=u.AnimBlueprintFactory();factory.set_editor_property('target_skeleton',skeleton);factory.set_editor_property('parent_class',u.PlankTownMountAnimInstance)
 animation=asset('ABP_'+NAME,FOLDER+'/Animations',u.AnimBlueprint,factory)
-assert u.CRBlueprintTools.build_mount_animation(animation,blend,clips['Idle'],clips['Walk'],clips['Run'])
+assert u.CRBlueprintTools.build_mount_animation(animation,blend,clips['Idle'],clips['Walk'],clips['Run'],clips['JumpRise'],clips['JumpFall'],clips['Land'])
 save(blend);save(animation)
 factory=u.BlueprintFactory();factory.set_editor_property('parent_class',u.PlankTownMount)
 blueprint=asset('BP_'+NAME,FOLDER,u.Blueprint,factory)
 default=u.get_default_object(blueprint.generated_class())
 default.mesh.set_skeletal_mesh_asset(mesh)
 default.mesh.set_anim_instance_class(animation.generated_class())
+default.character_movement.jump_z_velocity=520
+default.character_movement.gravity_scale=1.35
+default.character_movement.air_control=.35
 default.capsule_component.set_collision_response_to_channel(u.CollisionChannel.ECC_CAMERA,u.CollisionResponseType.ECR_IGNORE)
 default.mesh.set_collision_response_to_channel(u.CollisionChannel.ECC_CAMERA,u.CollisionResponseType.ECR_IGNORE)
 save(blueprint)
@@ -119,5 +122,5 @@ mount.mesh.set_collision_response_to_channel(u.CollisionChannel.ECC_CAMERA,u.Col
 assert levels.save_current_level()
 (SOURCE/'UnrealImport.json').write_text(json.dumps(dict(imported=True,mesh=mesh.get_path_name(),
     blueprint=blueprint.get_path_name(),animations={n:a.get_path_name() for n,a in clips.items()},
-    level='/Game/Maps/L_TraversalGym',actor='PlankTown_Moku',controls='E mount/dismount, WASD ride, Shift run'),indent=2)+'\n')
+    level='/Game/Maps/L_TraversalGym',actor='PlankTown_Moku',controls='E mount/dismount, WASD ride, Shift run, Space jump'),indent=2)+'\n')
 print('PLANKTOWN_MOUNT_IMPORT_COMPLETE')

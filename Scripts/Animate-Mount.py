@@ -87,6 +87,27 @@ for clip,frames,stride,lift,duty in [('Idle',60,0,0,1),('Walk',14,.25,.12,.46),(
         stride_metres=stride*2,lift_metres=lift,stance_fraction=duty,
         nominal_speed_cm_s=0 if not stride else 200*stride/(frames/30*duty)))
 
+# Air poses are blended by vertical velocity in Unreal. Landing compression is
+# driven by the actual ground contact, so slopes and ledges do not desync it.
+for clip,body_drop,body_pitch,foot_height in [('JumpRise',-.035,-.08,.23),('JumpFall',-.025,.065,.075),('Land',-.11,.015,.09)]:
+    action=bpy.data.actions.new(NAME+'_'+clip);rig.animation_data.action=action;action.use_fake_user=True
+    for frame in [0,1]:
+        scene.frame_set(frame)
+        for pb in rig.pose.bones:pb.matrix_basis=Matrix.Identity(4)
+        body=rig.pose.bones['body']
+        transform=Matrix.Translation((0,0,body_drop))@data.bones['body'].matrix_local
+        body.matrix=Matrix.LocRotScale(transform.translation,Quaternion((1,0,0),body_pitch)@transform.to_quaternion(),Vector((1,1,1)))
+        rig.pose.bones['neck'].rotation_quaternion=Quaternion((1,0,0),-body_pitch*.6)
+        rig.pose.bones['tail_01'].rotation_quaternion=Quaternion((1,0,0),-.15 if clip=='JumpRise' else .05)
+        bpy.context.view_layer.update()
+        for prefix,points in legs.items():
+            y=points[0].y+(-.045 if prefix.startswith('front') else .045)
+            limb(prefix,Vector((points[2].x,y,foot_height)),.22 if clip=='JumpRise' else 0)
+        for pb in rig.pose.bones:
+            pb.rotation_mode='QUATERNION'
+            for prop in ['location','rotation_quaternion','scale']:pb.keyframe_insert(prop,frame=frame,group=pb.name)
+    clips.append((clip,action,1))
+
 bpy.ops.object.select_all(action='DESELECT');mesh.select_set(True);rig.select_set(True)
 bpy.context.view_layer.objects.active=rig;rig.animation_data.action=None
 for pb in rig.pose.bones:pb.matrix_basis=Matrix.Identity(4)

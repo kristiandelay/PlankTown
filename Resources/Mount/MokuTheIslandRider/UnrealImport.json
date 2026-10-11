@@ -5,9 +5,12 @@
   "animations": {
     "Idle": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Idle.A_MokuTheIslandRider_Idle",
     "Walk": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Walk.A_MokuTheIslandRider_Walk",
-    "Run": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Run.A_MokuTheIslandRider_Run"
+    "Run": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Run.A_MokuTheIslandRider_Run",
+    "JumpRise": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_JumpRise.A_MokuTheIslandRider_JumpRise",
+    "JumpFall": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_JumpFall.A_MokuTheIslandRider_JumpFall",
+    "Land": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Land.A_MokuTheIslandRider_Land"
   },
   "level": "/Game/Maps/L_TraversalGym",
   "actor": "PlankTown_Moku",
-  "controls": "E mount/dismount, WASD ride, Shift run"
+  "controls": "E mount/dismount, WASD ride, Shift run, Space jump"
 }

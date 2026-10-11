@@ -37,7 +37,9 @@ Add a headpiece by creating a `PlankTownHeadpieceDefinition` data asset and a pi
 
 ## Riding Moku
 
-Moku the Island Rider stands beside the equipment and headpiece area in the traversal gym. Approach and face Moku, then press **E** to mount. Use **WASD** to steer relative to the camera, **Shift** to run, and **E** again to dismount. The scout sits in the saddle and keeps its headpiece and inventory. Combat and traversal actions are suspended while riding.
+Moku the Island Rider stands beside the equipment and headpiece area in the traversal gym. Approach and face Moku, then press **E** to mount. Use **WASD** to steer relative to the camera, **Shift** to run, **Space** to jump, and **E** again to dismount. The scout sits in the saddle and keeps its headpiece and inventory. Combat and traversal actions are suspended while riding.
+
+Space jumps from the ground, keeps running momentum and allows limited steering in the air. Moku tucks its legs on takeoff, reaches down while descending and compresses on landing. Holding Space does not repeat the jump; press again after landing. Dismounting waits until Moku is back on the ground. The movement component exposes jump velocity, gravity and air control for tuning (defaults: 520 cm/s, 1.35 and 0.35).
 
 Mounting, movement, occupancy and dismounting are server-authoritative and replicate to other players. Only one player can ride each mount. Dismounting searches for clear ground on either side and behind or ahead; if every exit is blocked, the HUD asks you to move to clear ground. Removing the mount or killing the rider releases the attachment.
 
@@ -57,7 +59,7 @@ Preparation scripts require Blender 5.2 and the installed Auto-Rig Pro add-on. `
 
 The import calls `Configure-PlayerRetarget.py` to assign the scout rig to every UE 5.8 retarget operation, map its toe chains, and align its rest pose. Ordinary arm animation preserves the scout's proportions; traversal contact curves can still blend toward the source hands. Run this configuration script outside Play to update the retargeter without reimporting the artwork.
 
-For Moku, run `Prepare-Mount.py` in Blender background mode to rebuild the fitted rig, weights and exports. Run `Animate-Mount.py` to update only its three gaits without skinning again, then `Validate-MountRig.py` to render and check all four legs, knee flexion, loop continuity and FBX round-trip. `Import-Mount.py` runs inside Unreal outside Play and imports the mount, its animation blueprint, seated rider pose and gym placement. The mount pipeline uses Blender's built-in tools and does not require Auto-Rig Pro.
+For Moku, run `Prepare-Mount.py` in Blender background mode to rebuild the fitted rig, weights and exports. Run `Animate-Mount.py` to update its three gaits and jump/landing poses without skinning again, then `Validate-MountRig.py` to render and check all four legs, knee flexion, loop continuity and FBX round-trip. `Import-Mount.py` runs inside Unreal outside Play and imports the mount, its animation blueprint, seated rider pose and gym placement. The mount pipeline uses Blender's built-in tools and does not require Auto-Rig Pro.
 
 ## Validation
 
@@ -66,5 +68,7 @@ Build with `Scripts/Build-Editor.ps1`. For editor automation, open with `Scripts
 Run `Test-PlankTown-Arms.py` outside Play to check actual shoulder/elbow/wrist motion in idle, jogging, rifle carry, aiming, firing, reloading, and both shoulder stances. It compares limb directions with the animated source, rejects raised idle arms and frozen arm swing, and captures each pose under `Artifacts/ArmFix`.
 
 Run `Test-Mount.py` outside Play for mounting with E, preserved headpieces, saddle alignment, all four animated legs, walking/running, steering, wall collision, obstructed exits, dismounting and mount removal. Stop Play before `Test-Mount-Network.py`, which checks two-player client control, replicated seating, dismounting and competing mount requests. Reports go to `Artifacts/MountTests`; checked-in results are in `Resources/Mount/MokuTheIslandRider/GameplayValidation.json`.
+
+`Test-Mount-Jump.py` checks Space input, jump height, air/landing poses, rejection of repeated midair requests, running jumps over a 60 cm obstacle and on-foot jumping after dismount. For the two-player version, execute it with `MOUNT_JUMP_NETWORK=True` in the editor Python globals. Start each run outside Play; reports are `jump-standalone.json` and `jump-network.json`.
 
 The original template documentation and test scripts remain in `Docs/` and `Scripts/`. Template tests that assume Manny should be run with the visual override cleared in the Game Animation Widget. Source sample notices remain with the Unreal project.

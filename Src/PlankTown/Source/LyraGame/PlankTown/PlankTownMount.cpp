@@ -1,5 +1,6 @@
 #include "PlankTownMount.h"
 #include "Baseline/BaselineEquipment.h"
+#include "Character/LyraHealthComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Crusader/CRTraversalCharacter.h"
@@ -30,6 +31,9 @@ APlankTownMount::APlankTownMount()
     Move->MaxAcceleration = 700.f;
     Move->BrakingDecelerationWalking = 900.f;
     Move->MaxStepHeight = 38.f;
+    Move->JumpZVelocity = 520.f;
+    Move->GravityScale = 1.35f;
+    Move->AirControl = .35f;
     Move->SetWalkableFloorAngle(42.f);
     bUseControllerRotationYaw = false;
 }
@@ -75,6 +79,16 @@ void UPlankTownMountAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
     Super::NativeUpdateAnimation(DeltaSeconds);
     const auto* Pawn = TryGetPawnOwner();
     Speed = FMath::FInterpTo(Speed,Pawn ? Pawn->GetVelocity().Size2D() : 0.f,DeltaSeconds,8.f);
+    const auto* Character = Cast<ACharacter>(Pawn);
+    const auto* Movement = Character ? Character->GetCharacterMovement() : nullptr;
+    const bool bFalling = Movement && Movement->IsFalling();
+    AirWeight = FMath::FInterpConstantTo(AirWeight,bFalling ? 1.f : 0.f,DeltaSeconds,10.f);
+    RisingWeight = FMath::FInterpTo(RisingWeight,Pawn ? FMath::Clamp(Pawn->GetVelocity().Z/350.f,0.f,1.f) : 0.f,DeltaSeconds,12.f);
+    if (bWasFalling && Movement && Movement->IsMovingOnGround()) LandingTimeRemaining = .24f;
+    if (bFalling) LandingTimeRemaining = 0.f;
+    LandingWeight = LandingTimeRemaining>0.f ? FMath::Sin(PI*(1.f-LandingTimeRemaining/.24f)) : 0.f;
+    LandingTimeRemaining = FMath::Max(0.f,LandingTimeRemaining-DeltaSeconds);
+    bWasFalling = bFalling;
 }
 
 UPlankTownRiderComponent::UPlankTownRiderComponent()
@@ -162,6 +176,8 @@ bool UPlankTownRiderComponent::FindDismountLocation(FVector& Location) const
 void UPlankTownRiderComponent::Dismount(bool bForce)
 {
     if (!GetOwner()->HasAuthority() || !MountedMount) return;
+    if (!bForce && !MountedMount->GetCharacterMovement()->IsMovingOnGround())
+    { LastInteractionResult=TEXT("Wait until Moku lands to dismount");return; }
     auto* Pawn=CastChecked<ACRTraversalCharacter>(GetOwner());
     FVector Location;
     if (!FindDismountLocation(Location))
@@ -181,6 +197,20 @@ void UPlankTownRiderComponent::Dismount(bool bForce)
 }
 
 void UPlankTownRiderComponent::ServerDismount_Implementation() { Dismount(false); }
+void UPlankTownRiderComponent::ServerJump_Implementation()
+{
+    if (!IsValid(MountedMount) || MountedMount->Rider!=GetOwner()) return;
+    const auto* Health=ULyraHealthComponent::FindHealthComponent(GetOwner());
+    if (Health && Health->IsDeadOrDying()) return;
+    auto* Movement=MountedMount->GetCharacterMovement();
+    // The rider owns this RPC. The unpossessed mount simulates on the server.
+    // DoJump changes movement mode immediately, rejecting repeated airborne requests.
+    if (Movement->IsMovingOnGround() && Movement->DoJump(false,GetWorld()->GetDeltaSeconds()))
+    {
+        LastInteractionResult=TEXT("Jumping");
+        MountedMount->ForceNetUpdate();
+    }
+}
 void UPlankTownRiderComponent::HandleDeath() { Dismount(true); }
 void UPlankTownRiderComponent::MountRemoved() { Dismount(true); }
 
@@ -242,11 +272,14 @@ void UPlankTownRiderComponent::InputMove(const FInputActionValue& Value) { Local
 void UPlankTownRiderComponent::InputMoveReleased(const FInputActionValue&) { LocalInput=FVector2D::ZeroVector; }
 void UPlankTownRiderComponent::InputSprint(const FInputActionValue&) { bLocalSprint=true; }
 void UPlankTownRiderComponent::InputSprintReleased(const FInputActionValue&) { bLocalSprint=false; }
+void UPlankTownRiderComponent::InputJump(const FInputActionValue&) { if (MountedMount) ServerJump(); }
 
 void UPlankTownRiderComponent::TickComponent(float DeltaTime,ELevelTick TickType,FActorComponentTickFunction* ThisTickFunction)
 {
     Super::TickComponent(DeltaTime,TickType,ThisTickFunction);
     if (!MountedMount) return;
+    if (GetOwner()->HasAuthority() && LastInteractionResult==TEXT("Wait until Moku lands to dismount")
+        && MountedMount->GetCharacterMovement()->IsMovingOnGround()) LastInteractionResult=TEXT("Mounted Moku");
     ApplyMountedState();
     UpdateRidingRetarget();
     const auto* Pawn=Cast<APawn>(GetOwner());

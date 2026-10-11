@@ -602,9 +602,10 @@ bool UCRBlueprintTools::BuildRidingOverlay(UAnimBlueprint* Blueprint,UAnimSequen
 }
 
 bool UCRBlueprintTools::BuildMountAnimation(UAnimBlueprint* Blueprint,UBlendSpace* BlendSpace,
-    UAnimSequence* Idle,UAnimSequence* Walk,UAnimSequence* Run)
+    UAnimSequence* Idle,UAnimSequence* Walk,UAnimSequence* Run,
+    UAnimSequence* JumpRise,UAnimSequence* JumpFall,UAnimSequence* Land)
 {
-    if (!Blueprint || !BlendSpace || !Idle || !Walk || !Run) return false;
+    if (!Blueprint || !BlendSpace || !Idle || !Walk || !Run || !JumpRise || !JumpFall || !Land) return false;
     while (BlendSpace->GetNumberOfBlendSamples()) BlendSpace->DeleteSample(0);
     auto& Parameter=const_cast<FBlendParameter&>(BlendSpace->GetBlendParameter(0));
     Parameter.DisplayName=TEXT("Speed");Parameter.Min=0;Parameter.Max=520;Parameter.GridNum=4;
@@ -627,8 +628,29 @@ bool UCRBlueprintTools::BuildMountAnimation(UAnimBlueprint* Blueprint,UBlendSpac
         auto* Speed=AddBaselineAnimNode<UK2Node_VariableGet>(Graph,-600,100);
         Speed->VariableReference.SetSelfMember(TEXT("Speed"));Speed->ReconstructNode();
         const auto* Schema=Graph->GetSchema();
-        if (!Schema->TryCreateConnection(Speed->GetValuePin(),Player->FindPinChecked(TEXT("X")))
-            || !Schema->TryCreateConnection(Player->FindPinChecked(TEXT("Pose")),Root->FindPinChecked(TEXT("Result")))) return false;
+        if (!Schema->TryCreateConnection(Speed->GetValuePin(),Player->FindPinChecked(TEXT("X")))) return false;
+        const auto MakePose=[&](UAnimSequence* Sequence,int32 Y)
+        {
+            auto* Pose=AddBaselineAnimNode<UAnimGraphNode_SequencePlayer>(Graph,-600,Y);
+            Pose->Node.SetSequence(Sequence);Pose->Node.SetLoopAnimation(true);
+            return Pose->FindPinChecked(TEXT("Pose"));
+        };
+        const auto BlendPoses=[&](UEdGraphPin* A,UEdGraphPin* B,FName Property,int32 X,int32 Y)->UEdGraphPin*
+        {
+            if (!A || !B) return nullptr;
+            auto* Blend=AddBaselineAnimNode<UAnimGraphNode_TwoWayBlend>(Graph,X,Y);
+            auto* Weight=AddBaselineAnimNode<UK2Node_VariableGet>(Graph,X-180,Y+160);
+            Weight->VariableReference.SetSelfMember(Property);Weight->ReconstructNode();
+            if (!Schema->TryCreateConnection(A,Blend->FindPinChecked(TEXT("A")))
+                || !Schema->TryCreateConnection(B,Blend->FindPinChecked(TEXT("B")))
+                || !Schema->TryCreateConnection(Weight->GetValuePin(),Blend->FindPinChecked(TEXT("Alpha")))) return nullptr;
+            return Blend->FindPinChecked(TEXT("Pose"));
+        };
+        auto* Air=BlendPoses(MakePose(JumpFall,350),MakePose(JumpRise,550),TEXT("RisingWeight"),-200,350);
+        auto* Flight=BlendPoses(Player->FindPinChecked(TEXT("Pose")),Air,TEXT("AirWeight"),100,0);
+        auto* Final=BlendPoses(Flight,MakePose(Land,850),TEXT("LandingWeight"),400,0);
+        Root->NodePosX=700;
+        if (!Final || !Schema->TryCreateConnection(Final,Root->FindPinChecked(TEXT("Result")))) return false;
         FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Blueprint);return true;
     }
     return false;

@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "validated_utc": "2026-10-11T19:57:06.026677+00:00",
+  "validated_utc": "2026-10-11T20:16:00.211061+00:00",
   "engine": "5.8",
   "editor_build": "succeeded",
   "source_hashes": "archive and all five normalized files match the source manifest",
@@ -132,6 +132,41 @@
           ]
         }
       ]
+    },
+    "jump_standalone": {
+      "passed": true,
+      "error": null,
+      "network": false,
+      "results": [
+        {
+          "case": "Space_jump_rider_attachment_air_and_landing_poses",
+          "height_cm": 101.93868735803784
+        },
+        "airborne_repeat_and_dismount_rejected_holding_does_not_bunny_hop",
+        {
+          "case": "running_jump_clears_60cm_obstacle_and_lands",
+          "distance_cm": 802.0151377790137
+        },
+        "dismount_restores_normal_player_Space_jump"
+      ]
+    },
+    "jump_network": {
+      "passed": true,
+      "error": null,
+      "network": true,
+      "results": [
+        {
+          "case": "Space_jump_rider_attachment_air_and_landing_poses",
+          "height_cm": 101.78775289515198
+        },
+        "airborne_repeat_and_dismount_rejected_holding_does_not_bunny_hop",
+        {
+          "case": "running_jump_clears_60cm_obstacle_and_lands",
+          "distance_cm": 786.5911188141051
+        },
+        "dismount_restores_normal_player_Space_jump"
+      ]
     }
-  }
+  },
+  "jump": "Space: grounded single jump, 520 cm/s takeoff, 1.35 gravity, 0.35 air control; rise/fall/landing poses and server-authoritative checks."
 }

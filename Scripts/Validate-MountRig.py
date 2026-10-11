@@ -43,6 +43,14 @@ for clip,frame in [('Idle',0),('Walk',3),('Run',2)]:
         assert min(bends.values())>25,(clip,bends)
         assert min(lifts.values())>.08,(clip,lifts)
     results.append({'clip':clip,'foot_motion_metres':ranges,'knee_flexion_degrees':bends,'foot_lift_metres':lifts})
+air_poses={}
+for clip in ['JumpRise','JumpFall','Land']:
+    rig.animation_data.action=bpy.data.actions['MokuTheIslandRider_'+clip]
+    scene.frame_set(0);bpy.context.view_layer.update()
+    air_poses[clip]={name:rig.pose.bones[name+'_foot'].head.z for name in ['front_l','front_r','hind_l','hind_r']}
+    assert all(math.isfinite(c) for bone in rig.pose.bones for c in bone.head)
+    scene.render.filepath=str(OUT/(clip+'.png'));bpy.ops.render.render(write_still=True)
+assert all(air_poses['JumpRise'][leg]>air_poses['JumpFall'][leg]+.10 for leg in air_poses['JumpRise'])
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 bpy.ops.import_scene.fbx(filepath=str(ASSET/'Export/MokuTheIslandRider_Walk.fbx'))
 export_rig=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
@@ -52,6 +60,7 @@ assert len(export_rig.data.bones)==20
 assert all(math.isfinite(c) for v in export_mesh.data.vertices for c in v.co)
 report=json.loads((ASSET/'RigValidation.json').read_text())
 report['gait_validation']=results
+report['jump_pose_foot_heights_metres']=air_poses
 report['fbx_roundtrip_bones']=len(export_rig.data.bones)
 report['fbx_roundtrip_animation']=export_rig.animation_data.action.name
 (ASSET/'RigValidation.json').write_text(json.dumps(report,indent=2)+'\n')

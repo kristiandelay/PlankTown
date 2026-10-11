@@ -15,7 +15,8 @@ public:
     static bool BuildRidingOverlay(class UAnimBlueprint* Blueprint, class UAnimSequence* Pose);
     UFUNCTION(BlueprintCallable, Category="PlankTown|Editor")
     static bool BuildMountAnimation(class UAnimBlueprint* Blueprint, class UBlendSpace* BlendSpace,
-        class UAnimSequence* Idle, class UAnimSequence* Walk, class UAnimSequence* Run);
+        class UAnimSequence* Idle, class UAnimSequence* Walk, class UAnimSequence* Run,
+        class UAnimSequence* JumpRise, class UAnimSequence* JumpFall, class UAnimSequence* Land);
     UFUNCTION(BlueprintCallable, Category="PlankTown|Editor")
     static bool CreateHeadpieceSocket(class USkeletalMesh* Mesh, FVector Position);
     UFUNCTION(BlueprintCallable, Category="Baseline|Editor")

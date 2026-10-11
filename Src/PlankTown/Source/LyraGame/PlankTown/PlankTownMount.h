@@ -39,7 +39,13 @@ class LYRAGAME_API UPlankTownMountAnimInstance : public UAnimInstance
     GENERATED_BODY()
 public:
     UPROPERTY(BlueprintReadOnly, Transient, Category="Mount") float Speed = 0.f;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Mount") float AirWeight = 0.f;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Mount") float RisingWeight = 0.f;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Mount") float LandingWeight = 0.f;
     virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+private:
+    bool bWasFalling = false;
+    float LandingTimeRemaining = 0.f;
 };
 
 UCLASS(BlueprintType, meta=(BlueprintSpawnableComponent))
@@ -56,11 +62,13 @@ public:
     UFUNCTION(BlueprintCallable, Category="Mount") void Interact();
     UFUNCTION(Server, Reliable, BlueprintCallable, Category="Mount") void ServerMount(APlankTownMount* Mount);
     UFUNCTION(Server, Reliable, BlueprintCallable, Category="Mount") void ServerDismount();
+    UFUNCTION(Server, Reliable, BlueprintCallable, Category="Mount") void ServerJump();
     UFUNCTION(Server, Unreliable, BlueprintCallable, Category="Mount") void ServerRideInput(FVector2D Input, float Yaw, bool bSprint);
     void InputMove(const FInputActionValue& Value);
     void InputMoveReleased(const FInputActionValue& Value);
     void InputSprint(const FInputActionValue& Value);
     void InputSprintReleased(const FInputActionValue& Value);
+    void InputJump(const FInputActionValue& Value);
     void HandleDeath();
     void MountRemoved();
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
