@@ -8,6 +8,15 @@ class UCRBlueprintTools : public UBlueprintFunctionLibrary
     GENERATED_BODY()
 public:
     UFUNCTION(BlueprintCallable, Category="PlankTown|Editor")
+    static bool ConfigureMountSocket(class USkeletalMesh* Mesh);
+    UFUNCTION(BlueprintCallable, Category="PlankTown|Editor")
+    static bool BuildRidingPose(class USkeletalMesh* Mesh, class UAnimSequence* Pose);
+    UFUNCTION(BlueprintCallable, Category="PlankTown|Editor")
+    static bool BuildRidingOverlay(class UAnimBlueprint* Blueprint, class UAnimSequence* Pose);
+    UFUNCTION(BlueprintCallable, Category="PlankTown|Editor")
+    static bool BuildMountAnimation(class UAnimBlueprint* Blueprint, class UBlendSpace* BlendSpace,
+        class UAnimSequence* Idle, class UAnimSequence* Walk, class UAnimSequence* Run);
+    UFUNCTION(BlueprintCallable, Category="PlankTown|Editor")
     static bool CreateHeadpieceSocket(class USkeletalMesh* Mesh, FVector Position);
     UFUNCTION(BlueprintCallable, Category="Baseline|Editor")
     static bool ConfigureVisualOverrideFallback(UBlueprint* Manager, UClass* Catalog);

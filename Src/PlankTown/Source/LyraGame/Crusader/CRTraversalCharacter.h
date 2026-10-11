@@ -15,6 +15,7 @@ class UPhysicsControlComponent;
 class UBaselinePhysicalInteractionComponent;
 class UChildActorComponent;
 class UPlankTownHeadpieceComponent;
+class UPlankTownRiderComponent;
 
 /** Lyra lifecycle and ability ownership for the GASP CMC animation/traversal graph. */
 UCLASS()
@@ -33,6 +34,7 @@ public:
     bool IsSlideMontage(const UAnimMontage* Montage) const { return Montage && Montage == SlideMontage; }
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Baseline") TObjectPtr<UBaselineEquipmentComponent> BaselineEquipment;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="PlankTown") TObjectPtr<UPlankTownHeadpieceComponent> Headpieces;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="PlankTown") TObjectPtr<UPlankTownRiderComponent> Riding;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Baseline") TObjectPtr<ULyraEquipmentManagerComponent> EquipmentManager;
     UPROPERTY(EditDefaultsOnly, Category="Baseline|Slide") TObjectPtr<UAnimSequence> SlideAnimation;
 protected:

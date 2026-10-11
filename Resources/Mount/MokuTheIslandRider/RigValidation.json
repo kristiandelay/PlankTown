@@ -1,0 +1,140 @@
+{
+  "passed": true,
+  "source_triangles": 1941780,
+  "triangles": 100000,
+  "vertices": 49838,
+  "bones": 20,
+  "unweighted_vertices": 0,
+  "max_influences": 4,
+  "repaired_vertices": 0,
+  "influence_counts": {
+    "body": 18011,
+    "chest": 17389,
+    "neck": 20827,
+    "head": 12700,
+    "front_l_upper": 7871,
+    "front_l_lower": 1128,
+    "front_l_foot": 927,
+    "front_r_upper": 8064,
+    "front_r_lower": 1181,
+    "front_r_foot": 892,
+    "saddle": 22364,
+    "tail_01": 9301,
+    "tail_02": 4754,
+    "hind_l_upper": 5295,
+    "hind_l_lower": 114,
+    "hind_l_foot": 1332,
+    "hind_r_upper": 5261,
+    "hind_r_lower": 89,
+    "hind_r_foot": 1277
+  },
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run"
+  ],
+  "saddle_position_metres": [
+    0,
+    0.03,
+    1.0
+  ],
+  "fbx_roundtrip_bones": 20,
+  "fbx_roundtrip_animation": "root|Scene",
+  "gait_settings": [
+    {
+      "clip": "Idle",
+      "frames": 60,
+      "fps": 30,
+      "cycles_per_second": 0.5,
+      "stride_metres": 0,
+      "lift_metres": 0,
+      "stance_fraction": 1,
+      "nominal_speed_cm_s": 0
+    },
+    {
+      "clip": "Walk",
+      "frames": 14,
+      "fps": 30,
+      "cycles_per_second": 2.142857142857143,
+      "stride_metres": 0.5,
+      "lift_metres": 0.12,
+      "stance_fraction": 0.46,
+      "nominal_speed_cm_s": 232.91925465838509
+    },
+    {
+      "clip": "Run",
+      "frames": 10,
+      "fps": 30,
+      "cycles_per_second": 3.0,
+      "stride_metres": 0.46,
+      "lift_metres": 0.18,
+      "stance_fraction": 0.265,
+      "nominal_speed_cm_s": 520.7547169811321
+    }
+  ],
+  "gait_validation": [
+    {
+      "clip": "Idle",
+      "foot_motion_metres": {
+        "front_l": 0.00795614719413196,
+        "front_r": 0.00795614719413196,
+        "hind_l": 0.007956147193908691,
+        "hind_r": 0.007956147193908691
+      },
+      "knee_flexion_degrees": {
+        "front_l": 0.0,
+        "front_r": 0.0,
+        "hind_l": 0.0,
+        "hind_r": 0.0
+      },
+      "foot_lift_metres": {
+        "front_l": 0.007956147193908691,
+        "front_r": 0.007956147193908691,
+        "hind_l": 0.007956147193908691,
+        "hind_r": 0.007956147193908691
+      }
+    },
+    {
+      "clip": "Walk",
+      "foot_motion_metres": {
+        "front_l": 0.5077813777308544,
+        "front_r": 0.5077813197868634,
+        "hind_l": 0.5064517185114744,
+        "hind_r": 0.5064517237810413
+      },
+      "knee_flexion_degrees": {
+        "front_l": 92.2171980222802,
+        "front_r": 111.79488342898958,
+        "hind_l": 93.98281216801225,
+        "hind_r": 92.75274632491173
+      },
+      "foot_lift_metres": {
+        "front_l": 0.11902707815170288,
+        "front_r": 0.11902707815170288,
+        "hind_l": 0.11939892172813416,
+        "hind_r": 0.11939894407987595
+      }
+    },
+    {
+      "clip": "Run",
+      "foot_motion_metres": {
+        "front_l": 0.4722695638803477,
+        "front_r": 0.490900904632359,
+        "hind_l": 0.49038521989760936,
+        "hind_r": 0.4903851870893159
+      },
+      "knee_flexion_degrees": {
+        "front_l": 93.20434818754921,
+        "front_r": 98.9338318822469,
+        "hind_l": 115.70699721951942,
+        "hind_r": 112.89459169668581
+      },
+      "foot_lift_metres": {
+        "front_l": 0.17939622700214386,
+        "front_r": 0.17557263374328613,
+        "hind_l": 0.17792128026485443,
+        "hind_r": 0.17792122811079025
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "MokuTheIslandRider",
+  "original_archive_name": "Meshy_AI_Moku_the_Island_Rider_1011192024_texture_fbx.zip",
+  "source_id": "1011192024",
+  "archive_path": "Resources/Mount/MokuTheIslandRider.zip",
+  "archive_sha256": "6d442c889c3c006c5d9f79a492c185a526732c5b8ed6a846aef140b250419b63",
+  "files": [
+    {
+      "original": "Meshy_AI_Moku_the_Island_Rider_1011192024_texture_fbx/Meshy_AI_Moku_the_Island_Rider_1011192024_texture.fbx",
+      "file": "MokuTheIslandRider.fbx",
+      "bytes": 89719516,
+      "sha256": "29a066071a5ba4fd3ad7cb5f9ca4d34f8f8b565e8cbcee79081b61e8e8e05cbd"
+    },
+    {
+      "original": "Meshy_AI_Moku_the_Island_Rider_1011192024_texture_fbx/Meshy_AI_Moku_the_Island_Rider_1011192024_texture.png",
+      "file": "MokuTheIslandRider_BaseColor.png",
+      "bytes": 6812016,
+      "sha256": "ad18de2372b79f8906f2edf0486f72a0442a3a2ba20d5e49800854a6c67ef152"
+    },
+    {
+      "original": "Meshy_AI_Moku_the_Island_Rider_1011192024_texture_fbx/Meshy_AI_Moku_the_Island_Rider_1011192024_texture_metallic.png",
+      "file": "MokuTheIslandRider_Metallic.png",
+      "bytes": 34249,
+      "sha256": "0b1e2a8eb2a3074dcc12a134e44c4ec67b477df42534980d3a9050da59af75f7"
+    },
+    {
+      "original": "Meshy_AI_Moku_the_Island_Rider_1011192024_texture_fbx/Meshy_AI_Moku_the_Island_Rider_1011192024_texture_normal.png",
+      "file": "MokuTheIslandRider_Normal.png",
+      "bytes": 5511134,
+      "sha256": "d5110cb95946f66e52cf152bdafeee1665d7b85c38f7e8102b3bd738635a8306"
+    },
+    {
+      "original": "Meshy_AI_Moku_the_Island_Rider_1011192024_texture_fbx/Meshy_AI_Moku_the_Island_Rider_1011192024_texture_roughness.png",
+      "file": "MokuTheIslandRider_Roughness.png",
+      "bytes": 1534604,
+      "sha256": "6ab4e937191e3d39e4f55c3c1e5b7f2cf54b749a6b1e5ebbcc01e691bc841e93"
+    }
+  ]
+}

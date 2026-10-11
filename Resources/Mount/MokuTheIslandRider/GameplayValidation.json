@@ -1,0 +1,137 @@
+{
+  "passed": true,
+  "validated_utc": "2026-10-11T19:57:06.026677+00:00",
+  "engine": "5.8",
+  "editor_build": "succeeded",
+  "source_hashes": "archive and all five normalized files match the source manifest",
+  "gait_revision": "Four-beat walk at 2.14 cycles/s and three-beat canter at 3 cycles/s; articulated knees and feet, planted contact timing, body and head follow-through.",
+  "tests": {
+    "standalone": {
+      "passed": true,
+      "error": null,
+      "results": [
+        "camera_sweep_ignores_mount_but_hits_wall_behind_it",
+        "distance_rejected_E_mount_seated_pose_hat_preserved",
+        {
+          "case": "walk_four_animated_legs",
+          "distance_cm": 405.33776161112087,
+          "foot_travel_cm": {
+            "front_l_foot": 48.53574141013497,
+            "front_r_foot": 48.36442291185744,
+            "hind_l_foot": 49.0159353228289,
+            "hind_r_foot": 48.94507163038748
+          }
+        },
+        {
+          "case": "shift_run",
+          "distance_cm": 966.9857040947302,
+          "peak_speed": 520.0
+        },
+        "steering_turns_mount_and_rider",
+        "release_input_stops_mount",
+        "mount_blocks_against_world_collision",
+        "blocked_exit_rejected_clear_E_exit_restores_player",
+        "on_foot_movement_restored",
+        "destroyed_mount_releases_rider"
+      ]
+    },
+    "two_player": {
+      "passed": true,
+      "error": null,
+      "mode": "two-player listen-server PIE",
+      "results": [
+        "client_E_mount_replicates_seated_rider_and_headpiece",
+        "occupied_mount_rejects_second_player",
+        {
+          "case": "client_WASD_drives_authoritative_mount_and_observer",
+          "distance_cm": 381.1381174492053
+        },
+        {
+          "case": "client_Shift_replicates_running",
+          "distance_cm": 920.5867102299198,
+          "peak_speed": 520.0
+        },
+        "client_E_dismount_replicates_and_restores_on_foot_pose",
+        "client_on_foot_movement_restored",
+        "simultaneous_requests_have_one_replicated_winner"
+      ]
+    },
+    "scout_arm_regression": {
+      "passed": true,
+      "error": null,
+      "results": [
+        {
+          "case": "idle",
+          "samples": 16,
+          "segment_direction_cosines": [
+            0.9877277376229496,
+            0.9874492286355044,
+            0.9963307807180567,
+            0.9851896707672909
+          ]
+        },
+        {
+          "case": "jog",
+          "samples": 27,
+          "segment_direction_cosines": [
+            0.8449430394249916,
+            0.8013207139158934,
+            0.89433362240695,
+            0.8703088747054522
+          ],
+          "hand_motion_cm": 56.310333576466505
+        },
+        {
+          "case": "carry",
+          "samples": 24,
+          "segment_direction_cosines": [
+            0.9752210859980227,
+            0.9681943701704149,
+            0.9080786251031164,
+            0.9106165579752732
+          ]
+        },
+        {
+          "case": "aim",
+          "samples": 24,
+          "segment_direction_cosines": [
+            0.9376452606666056,
+            0.942250873932947,
+            0.9178617306470757,
+            0.9012378101643734
+          ]
+        },
+        {
+          "case": "fire",
+          "samples": 14,
+          "segment_direction_cosines": [
+            0.9302887563540435,
+            0.9377291814862303,
+            0.9144538302942763,
+            0.8936531417905981
+          ]
+        },
+        {
+          "case": "reload",
+          "samples": 76,
+          "segment_direction_cosines": [
+            0.9587531133780215,
+            0.9423820150804214,
+            0.8988693976243642,
+            0.902151270980761
+          ]
+        },
+        {
+          "case": "left_shoulder",
+          "samples": 21,
+          "segment_direction_cosines": [
+            0.935450486954054,
+            0.8998214678669906,
+            0.9540351124062861,
+            0.9446067155126531
+          ]
+        }
+      ]
+    }
+  }
+}

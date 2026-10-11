@@ -42,6 +42,75 @@
 #include "K2Node_VariableSet.h"
 #include "Engine/SkeletalMesh.h"
 #include "Engine/SkeletalMeshSocket.h"
+#include "Animation/AnimData/IAnimationDataController.h"
+#include "AnimGraphNode_BlendSpacePlayer.h"
+
+bool UCRBlueprintTools::ConfigureMountSocket(USkeletalMesh* Mesh)
+{
+    if (!Mesh) return false;
+    const FReferenceSkeleton& Ref=Mesh->GetRefSkeleton();
+    int32 Index=Ref.FindBoneIndex(TEXT("saddle"));
+    if (Index==INDEX_NONE) return false;
+    FTransform Bone=Ref.GetRefBonePose()[Index];
+    while ((Index=Ref.GetParentIndex(Index))!=INDEX_NONE) Bone*=Ref.GetRefBonePose()[Index];
+    USkeletalMeshSocket* Socket=nullptr;
+    for (USkeletalMeshSocket* Existing:Mesh->GetMeshOnlySocketList())
+        if (Existing && Existing->SocketName==TEXT("RiderSocket")) { Socket=Existing;break; }
+    if (!Socket) { Socket=NewObject<USkeletalMeshSocket>(Mesh);Mesh->GetMeshOnlySocketList().Add(Socket); }
+    const FTransform Relative=FTransform(FRotator(0,90,0),FVector(0,-3,100)).GetRelativeTransform(Bone);
+    Socket->SocketName=TEXT("RiderSocket");Socket->BoneName=TEXT("saddle");
+    Socket->RelativeLocation=Relative.GetLocation();Socket->RelativeRotation=Relative.Rotator();
+    Socket->RelativeScale=Relative.GetScale3D();
+    Mesh->MarkPackageDirty();return true;
+}
+
+bool UCRBlueprintTools::BuildRidingPose(USkeletalMesh* Mesh,UAnimSequence* Pose)
+{
+    if (!Mesh || !Pose) return false;
+    Pose->SetSkeleton(Mesh->GetSkeleton());
+    const auto& Ref=Mesh->GetRefSkeleton();
+    TArray<FTransform> Local=Ref.GetRefBonePose(),Global;
+    Global.SetNum(Local.Num());
+    TMap<FName,TPair<FName,FVector>> Directions;
+    for (const FString Side : {TEXT("l"),TEXT("r")})
+    {
+        const float Sign=Side==TEXT("l") ? 1.f : -1.f;
+        Directions.Add(FName(TEXT("thigh_")+Side),{FName(TEXT("calf_")+Side),FVector(Sign*.72f,.64f,-.24f)});
+        Directions.Add(FName(TEXT("calf_")+Side),{FName(TEXT("foot_")+Side),FVector(Sign*.08f,.05f,-1.f)});
+        Directions.Add(FName(TEXT("foot_")+Side),{FName(TEXT("ball_")+Side),FVector(0,1,-.12f)});
+        Directions.Add(FName(TEXT("upperarm_")+Side),{FName(TEXT("lowerarm_")+Side),FVector(Sign*.35f,.65f,-.67f)});
+        Directions.Add(FName(TEXT("lowerarm_")+Side),{FName(TEXT("hand_")+Side),FVector(-Sign*.25f,.96f,.10f)});
+    }
+    for (int32 Index=0;Index<Local.Num();++Index)
+    {
+        const int32 Parent=Ref.GetParentIndex(Index);
+        const FTransform ParentTransform=Parent==INDEX_NONE ? FTransform::Identity : Global[Parent];
+        Global[Index]=Local[Index]*ParentTransform;
+        if (const auto* Aim=Directions.Find(Ref.GetBoneName(Index)))
+        {
+            const int32 Child=Ref.FindBoneIndex(Aim->Key);
+            if (Child==INDEX_NONE) return false;
+            const FVector Current=Global[Index].TransformVectorNoScale(Ref.GetRefBonePose()[Child].GetTranslation()).GetSafeNormal();
+            const FQuat Delta=FQuat::FindBetweenNormals(Current,Aim->Value.GetSafeNormal());
+            Global[Index].SetRotation((Delta*Global[Index].GetRotation()).GetNormalized());
+            Local[Index]=Global[Index].GetRelativeTransform(ParentTransform);
+        }
+    }
+    IAnimationDataController& Controller=Pose->GetController();
+    Controller.OpenBracket(FText::FromString(TEXT("Create seated mount pose")),false);
+    Controller.InitializeModel();Controller.SetFrameRate(FFrameRate(30,1),false);
+    Controller.SetNumberOfFrames(FFrameNumber(1),false);
+    for (int32 Index=0;Index<Local.Num();++Index)
+    {
+        const FName Name=Ref.GetBoneName(Index);
+        Controller.AddBoneCurve(Name,false);
+        Controller.SetBoneTrackKeys(Name,TArray<FVector>{Local[Index].GetTranslation(),Local[Index].GetTranslation()},
+            TArray<FQuat>{Local[Index].GetRotation(),Local[Index].GetRotation()},
+            TArray<FVector>{Local[Index].GetScale3D(),Local[Index].GetScale3D()},false);
+    }
+    Controller.NotifyPopulated();Controller.CloseBracket(false);
+    Pose->MarkPackageDirty();return true;
+}
 
 bool UCRBlueprintTools::CreateHeadpieceSocket(USkeletalMesh* Mesh, FVector Position)
 {
@@ -494,6 +563,75 @@ bool UCRBlueprintTools::ConfigurePhysicalAnimation(UBlueprint* Character, UAnimB
     FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Character);
     FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Animation);
     return true;
+}
+
+bool UCRBlueprintTools::BuildRidingOverlay(UAnimBlueprint* Blueprint,UAnimSequence* Pose)
+{
+    if (!Blueprint || !Pose) return false;
+    TArray<UEdGraph*> Graphs;Blueprint->GetAllGraphs(Graphs);
+    for (auto* Graph:Graphs)
+    {
+        if (Graph->GetFName()!=TEXT("AnimGraph")) continue;
+        for (UEdGraphNode* Node:Graph->Nodes)
+            if (Node->NodeComment==TEXT("PlankTown riding pose"))
+            {
+                if (auto* Player=Cast<UAnimGraphNode_SequencePlayer>(Node)) Player->Node.SetSequence(Pose);
+                FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Blueprint);return true;
+            }
+        for (UEdGraphNode* Node:Graph->Nodes)
+        {
+            auto* Root=Cast<UAnimGraphNode_Root>(Node);
+            if (!Root || Root->FindPinChecked(TEXT("Result"))->LinkedTo.IsEmpty()) continue;
+            auto* Previous=Root->FindPinChecked(TEXT("Result"))->LinkedTo[0];
+            auto* Player=AddBaselineAnimNode<UAnimGraphNode_SequencePlayer>(Graph,Root->NodePosX-400,Root->NodePosY+300);
+            Player->Node.SetSequence(Pose);Player->Node.SetLoopAnimation(true);
+            Player->NodeComment=TEXT("PlankTown riding pose");
+            auto* Blend=AddBaselineAnimNode<UAnimGraphNode_TwoWayBlend>(Graph,Root->NodePosX-150,Root->NodePosY);
+            auto* Weight=AddBaselineAnimNode<UK2Node_VariableGet>(Graph,Root->NodePosX-400,Root->NodePosY+500);
+            Weight->VariableReference.SetSelfMember(TEXT("RidingWeight"));Weight->ReconstructNode();
+            Root->FindPinChecked(TEXT("Result"))->BreakAllPinLinks();
+            const auto* Schema=Graph->GetSchema();
+            if (!Schema->TryCreateConnection(Previous,Blend->FindPinChecked(TEXT("A")))
+                || !Schema->TryCreateConnection(Player->FindPinChecked(TEXT("Pose")),Blend->FindPinChecked(TEXT("B")))
+                || !Schema->TryCreateConnection(Weight->GetValuePin(),Blend->FindPinChecked(TEXT("Alpha")))
+                || !Schema->TryCreateConnection(Blend->FindPinChecked(TEXT("Pose")),Root->FindPinChecked(TEXT("Result")))) return false;
+            FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Blueprint);return true;
+        }
+    }
+    return false;
+}
+
+bool UCRBlueprintTools::BuildMountAnimation(UAnimBlueprint* Blueprint,UBlendSpace* BlendSpace,
+    UAnimSequence* Idle,UAnimSequence* Walk,UAnimSequence* Run)
+{
+    if (!Blueprint || !BlendSpace || !Idle || !Walk || !Run) return false;
+    while (BlendSpace->GetNumberOfBlendSamples()) BlendSpace->DeleteSample(0);
+    auto& Parameter=const_cast<FBlendParameter&>(BlendSpace->GetBlendParameter(0));
+    Parameter.DisplayName=TEXT("Speed");Parameter.Min=0;Parameter.Max=520;Parameter.GridNum=4;
+    BlendSpace->AddSample(Idle,FVector(0,0,0));
+    BlendSpace->AddSample(Walk,FVector(240,0,0));
+    BlendSpace->AddSample(Run,FVector(520,0,0));
+    BlendSpace->ValidateSampleData();BlendSpace->ResampleData();BlendSpace->MarkPackageDirty();
+    TArray<UEdGraph*> Graphs;Blueprint->GetAllGraphs(Graphs);
+    for (auto* Graph:Graphs)
+    {
+        if (Graph->GetFName()!=TEXT("AnimGraph")) continue;
+        UAnimGraphNode_Root* Root=nullptr;
+        const auto Nodes=Graph->Nodes;
+        for (UEdGraphNode* Node:Nodes)
+            if (auto* Candidate=Cast<UAnimGraphNode_Root>(Node)) Root=Candidate;
+            else FBlueprintEditorUtils::RemoveNode(Blueprint,Node,true);
+        if (!Root) return false;
+        auto* Player=AddBaselineAnimNode<UAnimGraphNode_BlendSpacePlayer>(Graph,-300,0);
+        Player->Node.SetBlendSpace(BlendSpace);Player->ReconstructNode();
+        auto* Speed=AddBaselineAnimNode<UK2Node_VariableGet>(Graph,-600,100);
+        Speed->VariableReference.SetSelfMember(TEXT("Speed"));Speed->ReconstructNode();
+        const auto* Schema=Graph->GetSchema();
+        if (!Schema->TryCreateConnection(Speed->GetValuePin(),Player->FindPinChecked(TEXT("X")))
+            || !Schema->TryCreateConnection(Player->FindPinChecked(TEXT("Pose")),Root->FindPinChecked(TEXT("Result")))) return false;
+        FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Blueprint);return true;
+    }
+    return false;
 }
 
 bool UCRBlueprintTools::BuildWeaponOverlay(UAnimBlueprint* Blueprint, UAnimSequence* FallbackPose, UBlendSpace* FallbackAimOffset)

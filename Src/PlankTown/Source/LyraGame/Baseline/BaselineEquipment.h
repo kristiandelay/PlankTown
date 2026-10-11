@@ -154,6 +154,7 @@ class UBaselineAnimInstance : public UAnimInstance
     GENERATED_BODY()
 public:
     UPROPERTY(BlueprintReadOnly, Transient) TObjectPtr<UAnimSequence> WeaponPose;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Mount") float RidingWeight = 0.f;
     UPROPERTY(BlueprintReadOnly, Transient) TObjectPtr<UAnimSequence> WeaponCarryPose;
     UPROPERTY(BlueprintReadOnly, Transient) TObjectPtr<UBlendSpace> WeaponAimOffset;
     UPROPERTY(BlueprintReadOnly, Transient) float AimYaw = 0.f;

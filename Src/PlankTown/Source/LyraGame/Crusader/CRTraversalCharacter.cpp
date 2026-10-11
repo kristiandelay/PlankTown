@@ -19,6 +19,7 @@
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "TimerManager.h"
 #include "PlankTown/PlankTownHeadpieces.h"
+#include "PlankTown/PlankTownMount.h"
 
 ACRTraversalCharacter::ACRTraversalCharacter(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer.SetDefaultSubobjectClass<UBaselineCharacterMovement>(ACharacter::CharacterMovementComponentName))
@@ -30,6 +31,7 @@ ACRTraversalCharacter::ACRTraversalCharacter(const FObjectInitializer& ObjectIni
     EquipmentManager = CreateDefaultSubobject<ULyraEquipmentManagerComponent>(TEXT("EquipmentManager"));
     BaselineEquipment = CreateDefaultSubobject<UBaselineEquipmentComponent>(TEXT("BaselineEquipment"));
     Headpieces = CreateDefaultSubobject<UPlankTownHeadpieceComponent>(TEXT("Headpieces"));
+    Riding = CreateDefaultSubobject<UPlankTownRiderComponent>(TEXT("Riding"));
     PhysicsControl = CreateDefaultSubobject<UPhysicsControlComponent>(TEXT("PhysicsControl"));
     PhysicalInteraction = CreateDefaultSubobject<UBaselinePhysicalInteractionComponent>(TEXT("PhysicalInteraction"));
     SelectedVisualOverride = CreateDefaultSubobject<UChildActorComponent>(TEXT("SelectedVisualOverride"));
@@ -45,7 +47,7 @@ FPoseSearchBlueprintResult ACRTraversalCharacter::GetPhysicalInteractionResult()
 bool ACRTraversalCharacter::CanUseMovementActions() const
 {
     const auto* Health = ULyraHealthComponent::FindHealthComponent(this);
-    return !PhysicalInteraction->IsBusy() && (!Health || !Health->IsDeadOrDying());
+    return !Riding->IsMounted() && !PhysicalInteraction->IsBusy() && (!Health || !Health->IsDeadOrDying());
 }
 
 void ACRTraversalCharacter::OnAbilitySystemInitialized()
@@ -59,6 +61,7 @@ void ACRTraversalCharacter::OnAbilitySystemInitialized()
 void ACRTraversalCharacter::OnDeathStarted(AActor* OwningActor)
 {
     const FVector Momentum = GetVelocity();
+    Riding->HandleDeath();
     Super::OnDeathStarted(OwningActor);
     if (auto* ASC = GetLyraAbilitySystemComponent()) ASC->ClearAbilityInput();
     BaselineEquipment->HandleDeath();
@@ -154,6 +157,18 @@ void UCRTraversalHeroComponent::InitializePlayerInput(UInputComponent* PlayerInp
     auto* Input = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
     if (auto* Character = GetPawn<ACRTraversalCharacter>())
     {
+        if (auto* Action = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/IA_Move.IA_Move")))
+        {
+            Input->BindAction(Action,ETriggerEvent::Triggered,Character->Riding.Get(),&UPlankTownRiderComponent::InputMove);
+            Input->BindAction(Action,ETriggerEvent::Completed,Character->Riding.Get(),&UPlankTownRiderComponent::InputMoveReleased);
+            Input->BindAction(Action,ETriggerEvent::Canceled,Character->Riding.Get(),&UPlankTownRiderComponent::InputMoveReleased);
+        }
+        if (auto* Action = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/IA_Sprint.IA_Sprint")))
+        {
+            Input->BindAction(Action,ETriggerEvent::Triggered,Character->Riding.Get(),&UPlankTownRiderComponent::InputSprint);
+            Input->BindAction(Action,ETriggerEvent::Completed,Character->Riding.Get(),&UPlankTownRiderComponent::InputSprintReleased);
+            Input->BindAction(Action,ETriggerEvent::Canceled,Character->Riding.Get(),&UPlankTownRiderComponent::InputSprintReleased);
+        }
         const auto BindHeadpiece = [Input, Character](const TCHAR* Name, auto Method)
         {
             const FString Path = FString::Printf(TEXT("/Game/PlankTown/Input/IA_%s.IA_%s"), Name, Name);
@@ -219,6 +234,9 @@ UCRTraversalCameraMode::UCRTraversalCameraMode()
 void UCRTraversalCameraMode::UpdateView(float DeltaTime)
 {
     const auto* Character = Cast<ACRTraversalCharacter>(GetTargetActor());
+    const bool bMounted = Character && Character->Riding->IsMounted();
+    TargetOffsetX.GetRichCurve()->UpdateOrAddKey(0.f,bMounted ? -500.f : -300.f);
+    TargetOffsetZ.GetRichCurve()->UpdateOrAddKey(0.f,bMounted ? -55.f : -30.f);
     const float Target = Character && Character->BaselineEquipment->IsLeftShoulder() ? -50.f : 50.f;
     ShoulderOffset = FMath::FInterpConstantTo(ShoulderOffset, Target, DeltaTime, 100.f / .35f);
     TargetOffsetY.GetRichCurve()->UpdateOrAddKey(0.f, ShoulderOffset);

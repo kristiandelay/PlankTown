@@ -1,0 +1,13 @@
+{
+  "imported": true,
+  "mesh": "/Game/PlankTown/Mounts/MokuTheIslandRider/MokuTheIslandRider.MokuTheIslandRider",
+  "blueprint": "/Game/PlankTown/Mounts/MokuTheIslandRider/BP_MokuTheIslandRider.BP_MokuTheIslandRider",
+  "animations": {
+    "Idle": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Idle.A_MokuTheIslandRider_Idle",
+    "Walk": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Walk.A_MokuTheIslandRider_Walk",
+    "Run": "/Game/PlankTown/Mounts/MokuTheIslandRider/Animations/A_MokuTheIslandRider_Run.A_MokuTheIslandRider_Run"
+  },
+  "level": "/Game/Maps/L_TraversalGym",
+  "actor": "PlankTown_Moku",
+  "controls": "E mount/dismount, WASD ride, Shift run"
+}

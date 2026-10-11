@@ -24,6 +24,7 @@
 #include "Weapons/LyraWeaponStateComponent.h"
 #include "Character/LyraHealthComponent.h"
 #include "PlankTown/PlankTownHeadpieces.h"
+#include "PlankTown/PlankTownMount.h"
 
 UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_Baseline_HandsBusy, "Baseline.State.HandsBusy");
 UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_Baseline_ChangingShoulder, "Baseline.State.ChangingShoulder");
@@ -337,6 +338,20 @@ ABaselineWeaponPickup* UBaselineEquipmentComponent::FindPickup() const
 
 void UBaselineEquipmentComponent::Interact()
 {
+    if (auto* Riding=GetOwner()->FindComponentByClass<UPlankTownRiderComponent>())
+    {
+        if (Riding->IsMounted()) { Riding->Interact();return; }
+        if (auto* Mount=Riding->FindMount())
+        {
+            const auto* Hats=GetOwner()->FindComponentByClass<UPlankTownHeadpieceComponent>();
+            const auto* Hat=Hats ? Hats->FindPickup() : nullptr;
+            const auto* Weapon=FindPickup();
+            const float Distance=FVector::DistSquared(GetOwner()->GetActorLocation(),Mount->GetActorLocation());
+            if ((!Hat || Distance<FVector::DistSquared(GetOwner()->GetActorLocation(),Hat->GetActorLocation()))
+                && (!Weapon || Distance<FVector::DistSquared(GetOwner()->GetActorLocation(),Weapon->GetActorLocation())))
+            { Riding->ServerMount(Mount);return; }
+        }
+    }
     if (auto* Hats = GetOwner()->FindComponentByClass<UPlankTownHeadpieceComponent>())
         if (auto* Hat = Hats->FindPickup())
         {
@@ -412,6 +427,8 @@ void UBaselineEquipmentComponent::CycleWeapon()
 
 bool UBaselineEquipmentComponent::AreHandsBusy() const
 {
+    if (const auto* Riding=GetOwner()->FindComponentByClass<UPlankTownRiderComponent>())
+        if (Riding->IsMounted()) return true;
     const ACharacter* Character = Cast<ACharacter>(GetOwner());
     if (!Character) return false;
     if (const auto* Health = ULyraHealthComponent::FindHealthComponent(Character))
@@ -547,6 +564,8 @@ void UBaselineAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
     APawn* Pawn = Cast<APawn>(Actor);
     if (!Pawn && Actor) Pawn = Cast<APawn>(Actor->GetParentActor());
     if (!Pawn) return;
+    const auto* Riding=Pawn->FindComponentByClass<UPlankTownRiderComponent>();
+    RidingWeight=FMath::FInterpConstantTo(RidingWeight,Riding && Riding->IsMounted() ? 1.f : 0.f,DeltaSeconds,6.f);
     auto* Equipment = Pawn->FindComponentByClass<UBaselineEquipmentComponent>();
     auto* Manager = Pawn->FindComponentByClass<ULyraEquipmentManagerComponent>();
     auto* Weapon = Manager ? Manager->GetFirstInstanceOfType<UBaselineWeaponInstance>() : nullptr;
@@ -597,6 +616,19 @@ void ABaselineHUD::DrawHUD()
         }
     }
     DrawText(TEXT("PLANK TOWN"), FLinearColor(0.5f, 0.8f, 1.f), 24, 24);
+    if (const auto* Riding=PlayerOwner->GetPawn()->FindComponentByClass<UPlankTownRiderComponent>())
+    {
+        if (Riding->IsMounted())
+        {
+            DrawText(TEXT("Riding Moku"),FLinearColor(.8f,1.f,.7f),24,50);
+            DrawText(TEXT("WASD Ride   Shift Run   E Dismount"),FLinearColor::White,24,H-54,nullptr,1.3f);
+            if (Riding->LastInteractionResult==TEXT("Move to clear ground to dismount"))
+                DrawText(Riding->LastInteractionResult,FLinearColor(1.f,.8f,.4f),24,H-82,nullptr,1.2f);
+            return;
+        }
+        if (const auto* Mount=Riding->FindMount())
+            DrawText(TEXT("[E] Ride ")+Mount->DisplayName.ToString(),FLinearColor(.8f,1.f,.7f),W*.5f-100,H*.57f,nullptr,1.3f);
+    }
     if (const auto* Hats = PlayerOwner->GetPawn()->FindComponentByClass<UPlankTownHeadpieceComponent>())
     {
         DrawText(TEXT("H Drop headpiece   J Color   [ / ] Size"), FLinearColor::White, 24, H - 142);
