@@ -1,5 +1,6 @@
 """Import prepared source exports, materials, player override, headpieces and inputs."""
 import json
+import runpy
 from pathlib import Path
 import unreal as u
 
@@ -133,11 +134,7 @@ retarget=duplicate('/Game/Baseline/Animations/VisualOverrides/RTG_Manny_to_UE5_M
 controller=u.IKRetargeterController.get_controller(retarget)
 controller.set_ik_rig(u.RetargetSourceOrTarget.TARGET,rig)
 controller.set_preview_mesh(u.RetargetSourceOrTarget.TARGET,mesh)
-controller.auto_map_chains(u.AutoMapChainType.FUZZY,True)
-for pose in controller.get_retarget_poses(u.RetargetSourceOrTarget.TARGET):
-    controller.reset_retarget_pose(pose,[],u.RetargetSourceOrTarget.TARGET)
-controller.auto_align_all_bones(u.RetargetSourceOrTarget.TARGET)
-save(retarget)
+runpy.run_path(str(ROOT/'Scripts/Configure-PlayerRetarget.py'))['configure_player_retarget'](retarget,rig)
 animation=u.load_asset('/Game/Baseline/Animations/ABP_BaselineVisualRetarget')
 mapping=cdo(animation).get_editor_property('IKRetargeter_Map')
 mapping['RTG_Manny_to_'+name]=retarget

@@ -43,8 +43,12 @@ Each `Resources/Headpieces/<Name>/` folder contains the same source/scene/export
 
 Preparation scripts require Blender 5.2 and the installed Auto-Rig Pro add-on. `Fit-PlayerAutoRig.py -- JungleTotemScout` runs in Blender with a viewport; skinning, headpiece preparation, and `Validate-PlayerRig.py` run in background mode. `Import-PlankTownAssets.py` runs inside Unreal and rebuilds the imported assets from the prepared exports.
 
+The import calls `Configure-PlayerRetarget.py` to assign the scout rig to every UE 5.8 retarget operation, map its toe chains, and align its rest pose. Ordinary arm animation preserves the scout's proportions; traversal contact curves can still blend toward the source hands. Run this configuration script outside Play to update the retargeter without reimporting the artwork.
+
 ## Validation
 
 Build with `Scripts/Build-Editor.ps1`. For editor automation, open with `Scripts/Open-Traversal.ps1 -Automation`, then use `python Scripts/Send-Editor.py Scripts/Test-PlankTown.py`. The test starts PIE and exercises the default visual, all four pickups, customization, swaps, physics drops, re-pickup and invalid requests. Run `Test-PlankTown-Motion.py` in that PIE session to check movement and rifle pickup/fire/reload. Stop PIE before running `Test-PlankTown-Network.py`, which starts two-player PIE and checks replicated appearance, client drops and contested pickups. Reports and screenshots are written beneath `Artifacts/PlankTownTests`; the checked-in summary is `Resources/PlankTownValidation.json`.
+
+Run `Test-PlankTown-Arms.py` outside Play to check actual shoulder/elbow/wrist motion in idle, jogging, rifle carry, aiming, firing, reloading, and both shoulder stances. It compares limb directions with the animated source, rejects raised idle arms and frozen arm swing, and captures each pose under `Artifacts/ArmFix`.
 
 The original template documentation and test scripts remain in `Docs/` and `Scripts/`. Template tests that assume Manny should be run with the visual override cleared in the Game Animation Widget. Source sample notices remain with the Unreal project.

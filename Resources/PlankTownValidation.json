@@ -66,6 +66,85 @@
         "client_drop_and_world_style_replicated",
         "contested_pickup_has_one_winner_and_preserves_style"
       ]
+    },
+    "arms": {
+      "passed": true,
+      "error": null,
+      "results": [
+        {
+          "case": "idle",
+          "samples": 17,
+          "segment_direction_cosines": [
+            0.9883141981226505,
+            0.9880476794905566,
+            0.9966261311454683,
+            0.9857548500852594
+          ]
+        },
+        {
+          "case": "jog",
+          "samples": 15,
+          "segment_direction_cosines": [
+            0.9007813305633301,
+            0.890465406767598,
+            0.8957733880577998,
+            0.8678961364951597
+          ],
+          "hand_motion_cm": 45.76366761791468
+        },
+        {
+          "case": "carry",
+          "samples": 17,
+          "segment_direction_cosines": [
+            0.9768739795616038,
+            0.9696855650866985,
+            0.9096371284684232,
+            0.9126802177814639
+          ]
+        },
+        {
+          "case": "aim",
+          "samples": 14,
+          "segment_direction_cosines": [
+            0.9409839328374938,
+            0.9443991389836263,
+            0.9199196995903428,
+            0.9049841687378789
+          ]
+        },
+        {
+          "case": "fire",
+          "samples": 14,
+          "segment_direction_cosines": [
+            0.9297798572654059,
+            0.9376183391420103,
+            0.9147418055309834,
+            0.8943379427589097
+          ]
+        },
+        {
+          "case": "reload",
+          "samples": 50,
+          "segment_direction_cosines": [
+            0.9604515151042382,
+            0.944712244540826,
+            0.8989455442431934,
+            0.9021036166173958
+          ]
+        },
+        {
+          "case": "left_shoulder",
+          "samples": 15,
+          "segment_direction_cosines": [
+            0.9355081965770453,
+            0.899942483046959,
+            0.9540963198343827,
+            0.9447475972946062
+          ]
+        }
+      ],
+      "validated_utc": "2026-10-11T17:30:07.751891+00:00",
+      "scope": "Actual upper/lower arm motion against Manny source in standalone PIE; idle, jog, rifle carry, aim, fire, reload, left shoulder."
     }
   },
   "rig": {
