@@ -5,7 +5,7 @@ import time
 import traceback
 import unreal as u
 
-recovery_root = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent
+recovery_root = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]
 recovery_steps = [
     ('Test-GetUpContinuity.py', 'getup_test', 'PhysicalTests/getup-continuity.json'),
     ('Test-RagdollSettling.py', 'settle_test', 'PhysicalTests/ragdoll-settling.json'),

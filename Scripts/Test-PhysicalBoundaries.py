@@ -1,6 +1,6 @@
 """PIE interaction rejection and automatic fall-ragdoll checks."""
 boundary_physical={'phase':'setup','next':0,'index':0,'results':[],'deadline':time.monotonic()+100,'busy':False}
-boundary_physical_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/PhysicalTests/physical-boundaries.json'
+boundary_physical_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/PhysicalTests/physical-boundaries.json'
 
 def pb_finish(error=None):
     u.unregister_slate_post_tick_callback(boundary_physical['handle'])

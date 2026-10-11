@@ -6,7 +6,7 @@ import traceback
 from pathlib import Path
 import unreal as u
 
-shoulder_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent / 'Artifacts/CombatTests'
+shoulder_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1] / 'Artifacts/CombatTests'
 shoulder_out.mkdir(parents=True, exist_ok=True)
 shoulder_test = {'phase': 'pickup', 'weapon': 0, 'side': 0, 'angle': 0, 'next': 0,
                  'results': [], 'busy': False, 'deadline': time.monotonic()+200}

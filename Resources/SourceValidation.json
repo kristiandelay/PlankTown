@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "deliveries": [
+    {
+      "name": "FestiveHeaddress",
+      "source_id": "1011150842",
+      "files_verified": 5
+    },
+    {
+      "name": "FisherHat",
+      "source_id": "1011150751",
+      "files_verified": 5
+    },
+    {
+      "name": "MushroomCap",
+      "source_id": "1011150827",
+      "files_verified": 5
+    },
+    {
+      "name": "StrawHat",
+      "source_id": "1011150806",
+      "files_verified": 5
+    },
+    {
+      "name": "JungleTotemScout",
+      "source_id": "1011150722",
+      "files_verified": 5
+    }
+  ],
+  "lfs_source_assets": 44
+}

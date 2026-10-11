@@ -1,0 +1,39 @@
+{
+  "name": "StrawHat",
+  "original_archive_name": "Meshy_AI_Straw_Hat_1011150806_texture_fbx.zip",
+  "archive_path": "Resources/Headpieces/StrawHat.zip",
+  "archive_sha256": "df1e350d2795cd49901e79897d1fc984b6a11bc25d6816cde2864d1c01702bd4",
+  "files": [
+    {
+      "original": "Meshy_AI_Straw_Hat_1011150806_texture_fbx/Meshy_AI_Straw_Hat_1011150806_texture.fbx",
+      "file": "StrawHat.fbx",
+      "bytes": 80382236,
+      "sha256": "46c912bac6ff8ad45e2dd8082ed21bb94eae4875b5b67ed68faddbb738511945"
+    },
+    {
+      "original": "Meshy_AI_Straw_Hat_1011150806_texture_fbx/Meshy_AI_Straw_Hat_1011150806_texture.png",
+      "file": "StrawHat_BaseColor.png",
+      "bytes": 6223505,
+      "sha256": "11a71a268a7a72df9b633b1e448dcfd6617daa23e6acb03471eeac4c286be114"
+    },
+    {
+      "original": "Meshy_AI_Straw_Hat_1011150806_texture_fbx/Meshy_AI_Straw_Hat_1011150806_texture_metallic.png",
+      "file": "StrawHat_Metallic.png",
+      "bytes": 25344,
+      "sha256": "2abfee11613b0b9e82a2a1f6f3c7ed9c76563e607bd7d10bbb7d09eb8ac0fcce"
+    },
+    {
+      "original": "Meshy_AI_Straw_Hat_1011150806_texture_fbx/Meshy_AI_Straw_Hat_1011150806_texture_normal.png",
+      "file": "StrawHat_Normal.png",
+      "bytes": 4782801,
+      "sha256": "f867d1c66284f83d6aa8c6f2a5dc4e185e6a4e65f7acd780425523233d4f6855"
+    },
+    {
+      "original": "Meshy_AI_Straw_Hat_1011150806_texture_fbx/Meshy_AI_Straw_Hat_1011150806_texture_roughness.png",
+      "file": "StrawHat_Roughness.png",
+      "bytes": 1513250,
+      "sha256": "de9e2b93cc083ea74a1e49bfcb0c50ac14d14388ef01132061774ef2decb5875"
+    }
+  ],
+  "source_id": "1011150806"
+}

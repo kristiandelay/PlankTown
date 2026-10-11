@@ -1,49 +1,50 @@
-# Lyra GASP 5.8 Template
+# PlankTown
 
-A reusable Unreal Engine **5.8.3** project combining Lyra with the Game Animation Sample's CMC locomotion and traversal. Start in `/Game/Maps/L_TraversalGym`.
+Unreal Engine 5.8 project based on the Lyra/GASP template, with the Jungle Totem Scout player and four customizable headpieces.
 
-## Get started
+Open `Src/PlankTown/PlankTown.uproject` or `Open-Traversal.cmd`, then press Play. The scout is the default visual override in the traversal gym and is also available in the Game Animation Widget. Native Lyra module names and inherited content paths are retained to preserve asset references.
 
-Install Unreal Engine 5.8.3, the Visual Studio C++ tools required by Unreal, Git, and Git LFS. The project includes approximately 8 GB of assets stored in Git LFS.
+## Setup
+
+Install Unreal Engine 5.8, its Visual Studio C++ prerequisites, Git, and Git LFS.
 
 ```powershell
 git lfs install
-git clone git@github.com:kristiandelay/LyraGasp5.8Template.git
-cd LyraGasp5.8Template
+git clone git@github.com:kristiandelay/PlankTown.git
+cd PlankTown
 git lfs pull
 powershell -ExecutionPolicy Bypass -File Scripts/Build-Editor.ps1
 ```
 
-Open `Open-Traversal.cmd`, then press Play. If Unreal is installed elsewhere, pass `-EngineRoot` to the build/open PowerShell scripts.
+The entire workspace belongs to this repository. Unreal assets, FBX exports, Blender scenes, textures, and source ZIPs use LFS. Build products and local validation artifacts are ignored. `template` identifies the original LyraGasp5.8Template repository.
 
-The Unreal project is `src/LyraStarterGame.uproject`. Native Lyra module names and existing asset paths are retained so serialized references remain valid.
+## Headpieces
 
-## Included
+Straw Hat, Fisher Hat, Mushroom Cap, and Festive Headdress pickups are placed beside the gym's equipment area.
 
-- Motion-matched movement, sliding, jumping, vaulting, mantling and climbing.
-- Lyra inventory, rifle/pistol/shotgun pickups, firing, reloading and combat death/respawn.
-- Aim offsets, shooting while sliding, and shoulder switching with mirrored weapon poses and actual hand transfer.
-- Physics Control, passive ragdolls, pose-matched recovery and paired shove/tackle/takedown interactions.
-- Six character visual overrides through the Game Animation Widget, preserving weapon animations and reloads.
-- Standalone and two-player PIE validation scripts, with recorded validation manifests under `resources/`.
+| Key | Action |
+| --- | --- |
+| E | Pick up a reachable weapon or headpiece in front of you; aim at a hat to select it |
+| H | Drop the worn headpiece |
+| J | Cycle headpiece color |
+| [ / ] | Decrease / increase headpiece size, from 80% to 120% |
+| G / Tab | Drop / switch weapon |
+| WASD / Shift / C / Space | Move / sprint / crouch or slide / jump or traverse |
 
-The source samples' original documentation and notices remain in `src/`. Build outputs, caches and local editor data are excluded from version control.
+Equipping another headpiece drops the previous one. Color and size travel with each item through drops and pickups. Items and worn appearance replicate, with server checks for distance, visibility, character state, and valid customization. Hat sizing is authored for the scout; other visual overrides can supply their own `HeadpieceSocket`.
 
-## Controls and maintenance
+Add a headpiece by creating a `PlankTownHeadpieceDefinition` data asset and a pickup Blueprint based on `PlankTownHeadpiecePickup`. The definition contains its mesh, palette, socket and wear transform. Materials use the `Tint` vector parameter.
 
-See [BaselineTemplate.txt](docs/BaselineTemplate.txt) for controls, authoring order and tests, and [TraversalSetup.txt](docs/TraversalSetup.txt) for integration details.
+## Art sources
 
-Use **E** to pick up a weapon, **RMB** to aim, **LMB** to fire, **R** to reload and **Q** to switch shoulder/weapon hand. The gym includes training partners and traversal obstacles.
+`Resources/Player/JungleTotemScout/` contains the untouched normalized `Source/`, editable Auto-Rig Pro `.blend`, game-ready `Export/`, and rig validation report. The supplied character has four digits per hand, all rigged and weighted. ARP uses thumb/middle/ring/pinky names for its four-digit preset. The exported body has 90,000 triangles and at most four influences per vertex.
 
-Validation manifests describe the checks performed on the source baseline. Detailed `Artifacts/` logs and screenshots are local outputs; rerunning the scripts creates new reports in your copy. Packaged builds and networking under latency/loss need project-specific validation.
+Each `Resources/Headpieces/<Name>/` folder contains the same source/scene/export separation. Headpiece exports have about 16,000 triangles each. ZIP bytes remain unchanged; `SourceManifest.json` records the original delivery names, source IDs and hashes. Texture names use `_BaseColor`, `_Normal`, `_Metallic`, and `_Roughness`.
 
-## Create an independent project
+Preparation scripts require Blender 5.2 and the installed Auto-Rig Pro add-on. `Fit-PlayerAutoRig.py -- JungleTotemScout` runs in Blender with a viewport; skinning, headpiece preparation, and `Validate-PlayerRig.py` run in background mode. `Import-PlankTownAssets.py` runs inside Unreal and rebuilds the imported assets from the prepared exports.
 
-Use the clone/export workflow for this LFS-backed baseline. GitHub's built-in
-"Use this template" feature [does not support repositories containing Git LFS files](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+## Validation
 
-```powershell
-python Scripts/New-BaselineProject.py C:/Development/Game/MyNextProject --name "My Next Project"
-```
+Build with `Scripts/Build-Editor.ps1`. For editor automation, open with `Scripts/Open-Traversal.ps1 -Automation`, then use `python Scripts/Send-Editor.py Scripts/Test-PlankTown.py`. The test starts PIE and exercises the default visual, all four pickups, customization, swaps, physics drops, re-pickup and invalid requests. Run `Test-PlankTown-Motion.py` in that PIE session to check movement and rifle pickup/fire/reload. Stop PIE before running `Test-PlankTown-Network.py`, which starts two-player PIE and checks replicated appearance, client drops and contested pickups. Reports and screenshots are written beneath `Artifacts/PlankTownTests`; the checked-in summary is `Resources/PlankTownValidation.json`.
 
-The exporter requires a new or empty destination, generates a fresh project ID, and copies the source, assets, maintenance scripts and validation records without Git history or generated files. Initialize a new Git repository and install Git LFS in that copy before its first commit.
+The original template documentation and test scripts remain in `Docs/` and `Scripts/`. Template tests that assume Manny should be run with the visual override cleared in the Game Animation Widget. Source sample notices remain with the Unreal project.

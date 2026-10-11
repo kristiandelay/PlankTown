@@ -1,0 +1,31 @@
+{
+  "imported": true,
+  "assets": [
+    {
+      "name": "JungleTotemScout",
+      "mesh": "/Game/PlankTown/Player/JungleTotemScout/JungleTotemScout.JungleTotemScout",
+      "material": "/Game/PlankTown/Player/JungleTotemScout/M_JungleTotemScout.M_JungleTotemScout"
+    },
+    {
+      "name": "StrawHat",
+      "mesh": "/Game/PlankTown/Headpieces/StrawHat/StrawHat.StrawHat",
+      "material": "/Game/PlankTown/Headpieces/StrawHat/M_StrawHat.M_StrawHat"
+    },
+    {
+      "name": "FisherHat",
+      "mesh": "/Game/PlankTown/Headpieces/FisherHat/FisherHat.FisherHat",
+      "material": "/Game/PlankTown/Headpieces/FisherHat/M_FisherHat.M_FisherHat"
+    },
+    {
+      "name": "MushroomCap",
+      "mesh": "/Game/PlankTown/Headpieces/MushroomCap/MushroomCap.MushroomCap",
+      "material": "/Game/PlankTown/Headpieces/MushroomCap/M_MushroomCap.M_MushroomCap"
+    },
+    {
+      "name": "FestiveHeaddress",
+      "mesh": "/Game/PlankTown/Headpieces/FestiveHeaddress/FestiveHeaddress.FestiveHeaddress",
+      "material": "/Game/PlankTown/Headpieces/FestiveHeaddress/M_FestiveHeaddress.M_FestiveHeaddress"
+    }
+  ],
+  "visual_override_index": 6
+}

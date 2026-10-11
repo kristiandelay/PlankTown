@@ -2,7 +2,7 @@
 from pathlib import Path
 import unreal as u
 
-root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent
+root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]
 runner=(root/'Scripts/Test-VisualOverride-Regressions.py').read_text()
 runner=runner.replace("'Artifacts/VisualOverride/regressions.json'", "'Artifacts/VisualOverride/recovery-clock-regressions.json'")
 exec(runner,globals())

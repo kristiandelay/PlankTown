@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 import unreal as u
 
-root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent
+root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]
 export=json.loads((root/'BaselineExport.json').read_text())
 assert u.get_editor_subsystem(u.LevelEditorSubsystem).load_level('/Game/Maps/L_TraversalGym')
 pawn=u.load_asset('/Game/Crusader/Characters/B_CRTraversalPawn')

@@ -5,7 +5,7 @@ import traceback
 from pathlib import Path
 import unreal as u
 
-combat_root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent
+combat_root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]
 combat_steps=[
     ('Test-CombatDeath.py','death_test','CombatTests/combat-death.json','PIE_Standalone',1),
     ('Test-CombatShoulder-Network.py','combat_net','CombatTests/combat-shoulder-network.json','PIE_ListenServer',2),

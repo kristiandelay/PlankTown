@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 import unreal as u
 
-root = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent
+root = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]
 out = root / 'Artifacts/BaselineAuthoring'
 out.mkdir(parents=True, exist_ok=True)
 lib = u.EditorAssetLibrary

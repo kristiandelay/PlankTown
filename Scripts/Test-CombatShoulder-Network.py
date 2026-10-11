@@ -6,7 +6,7 @@ from pathlib import Path
 import unreal as u
 
 combat_net={'phase':'position_pickups','next':0,'busy':False,'index':0,'results':[], 'deadline':time.monotonic()+120}
-combat_net_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/CombatTests/combat-shoulder-network.json'
+combat_net_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/CombatTests/combat-shoulder-network.json'
 
 
 def cn_context():

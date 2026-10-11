@@ -1,0 +1,39 @@
+{
+  "name": "JungleTotemScout",
+  "original_archive_name": "Meshy_AI_Jungle_Totem_Scout_1011150722_texture_fbx.zip",
+  "archive_path": "Resources/Player/JungleTotemScout.zip",
+  "archive_sha256": "7a9b2e206624a387a286f2578cce4d4cc66ce41aa80a37730bf2b3bc65649129",
+  "files": [
+    {
+      "original": "Meshy_AI_Jungle_Totem_Scout_1011150722_texture_fbx/Meshy_AI_Jungle_Totem_Scout_1011150722_texture.fbx",
+      "file": "JungleTotemScout.fbx",
+      "bytes": 54984348,
+      "sha256": "92bce44906135c27dc3a2b880e3a99184ccab842445e1a56b32cc3ea5a5f9a6b"
+    },
+    {
+      "original": "Meshy_AI_Jungle_Totem_Scout_1011150722_texture_fbx/Meshy_AI_Jungle_Totem_Scout_1011150722_texture.png",
+      "file": "JungleTotemScout_BaseColor.png",
+      "bytes": 6272884,
+      "sha256": "2b4f4087e66845b33593dea56dd674ee78b2455088bd28a49348f0d46ada6f6b"
+    },
+    {
+      "original": "Meshy_AI_Jungle_Totem_Scout_1011150722_texture_fbx/Meshy_AI_Jungle_Totem_Scout_1011150722_texture_metallic.png",
+      "file": "JungleTotemScout_Metallic.png",
+      "bytes": 26265,
+      "sha256": "35e0246a02425d44199070ed527a06fd9d4bba726a1e7eadc130e20bb9fd56f8"
+    },
+    {
+      "original": "Meshy_AI_Jungle_Totem_Scout_1011150722_texture_fbx/Meshy_AI_Jungle_Totem_Scout_1011150722_texture_normal.png",
+      "file": "JungleTotemScout_Normal.png",
+      "bytes": 4579650,
+      "sha256": "4b09f8a66019fb26a5985db7a677fc3ce45626b2fcb1ea6ecea5a0abb9e2a1c9"
+    },
+    {
+      "original": "Meshy_AI_Jungle_Totem_Scout_1011150722_texture_fbx/Meshy_AI_Jungle_Totem_Scout_1011150722_texture_roughness.png",
+      "file": "JungleTotemScout_Roughness.png",
+      "bytes": 1406234,
+      "sha256": "4ae652b8846dc98fff951cb5ce892fac2c5d8691f39820b824fad5c5d8dda40d"
+    }
+  ],
+  "source_id": "1011150722"
+}

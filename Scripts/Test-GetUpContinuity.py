@@ -6,7 +6,7 @@ import traceback
 from pathlib import Path
 import unreal as u
 
-getup_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent / 'Artifacts/PhysicalTests'
+getup_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1] / 'Artifacts/PhysicalTests'
 getup_out.mkdir(parents=True, exist_ok=True)
 getup_test = {'phase': 'position', 'index': 0, 'next': 0, 'results': [], 'samples': [],
               'busy': False, 'deadline': time.monotonic() + 180}

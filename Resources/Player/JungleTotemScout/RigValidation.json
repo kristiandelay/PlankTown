@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "name": "JungleTotemScout",
+  "bones": 78,
+  "vertices": 44904,
+  "unweighted_vertices": 0,
+  "max_influences": 4,
+  "finger_chains": {
+    "thumb_l": {
+      "thumb_01_l": 818,
+      "thumb_02_l": 175,
+      "thumb_03_l": 113
+    },
+    "middle_l": {
+      "middle_01_l": 217,
+      "middle_02_l": 223,
+      "middle_03_l": 128
+    },
+    "ring_l": {
+      "ring_01_l": 146,
+      "ring_02_l": 186,
+      "ring_03_l": 148
+    },
+    "pinky_l": {
+      "pinky_01_l": 168,
+      "pinky_02_l": 161,
+      "pinky_03_l": 145
+    },
+    "thumb_r": {
+      "thumb_01_r": 804,
+      "thumb_02_r": 185,
+      "thumb_03_r": 125
+    },
+    "middle_r": {
+      "middle_01_r": 203,
+      "middle_02_r": 221,
+      "middle_03_r": 140
+    },
+    "ring_r": {
+      "ring_01_r": 156,
+      "ring_02_r": 223,
+      "ring_03_r": 151
+    },
+    "pinky_r": {
+      "pinky_01_r": 181,
+      "pinky_02_r": 192,
+      "pinky_03_r": 123
+    }
+  },
+  "finger_pose_vertices_changed": 2738,
+  "mesh_bounds_metres": {
+    "min": [
+      -0.9079606533050537,
+      -0.3595862090587616,
+      0.00013590946036856622
+    ],
+    "max": [
+      0.9068676233291626,
+      0.36359456181526184,
+      1.799902319908142
+    ]
+  },
+  "anatomy": "Four digits per hand: thumb and three fingers. ARP four-digit names are thumb/middle/ring/pinky."
+}

@@ -5,7 +5,7 @@ import time
 import traceback
 from pathlib import Path
 import unreal as u
-aim_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/AimTests'
+aim_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/AimTests'
 aim_out.mkdir(parents=True,exist_ok=True)
 aim_test={'phase':'pickup','next':0,'weapon_index':0,'results':[],'busy':False,'deadline':time.monotonic()+240}
 

@@ -5,7 +5,7 @@ import traceback
 from pathlib import Path
 import unreal as u
 
-death_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/CombatTests'
+death_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/CombatTests'
 death_out.mkdir(parents=True,exist_ok=True)
 death_test={'phase':'pickup','next':0,'results':[],'busy':False,'deadline':time.monotonic()+150,'cycle':0,'pickup_index':0}
 

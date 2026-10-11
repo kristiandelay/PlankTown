@@ -5,7 +5,7 @@ import traceback
 from pathlib import Path
 import unreal as u
 
-visual_root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent
+visual_root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]
 visual_steps=[
     ('Test-VisualOverrides.py','visual_test','VisualOverride/visual-overrides.json','VisualOverride/visual-overrides.json','PIE_Standalone',1,-1),
     ('Test-GetUpContinuity.py','getup_test','PhysicalTests/getup-continuity.json','VisualOverride/kellan-recovery.json','PIE_Standalone',1,2),

@@ -1,6 +1,6 @@
 """Run after Test-Baseline.py: transaction rejection, slide collision and crouch clearance."""
 boundary={'phase':'full','next':0,'results':[],'busy':False,'deadline':time.monotonic()+120}
-boundary_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/BaselineTests/boundaries.json'
+boundary_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/BaselineTests/boundaries.json'
 
 def boundary_actor(world,name):
     return next(a for a in u.GameplayStatics.get_all_actors_of_class(world,u.Actor) if a.get_name()==boundary[name])

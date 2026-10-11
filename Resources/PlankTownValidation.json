@@ -1,0 +1,167 @@
+{
+  "passed": true,
+  "validated_utc": "2026-10-11T15:47:40.990258+00:00",
+  "engine": "5.8",
+  "template_commit": "96ef77b097a7cac4161c6646572709945dd61bf2",
+  "editor_build": "succeeded",
+  "tests": {
+    "result": {
+      "passed": true,
+      "error": null,
+      "results": [
+        {
+          "case": "default_visual_and_four_pickups",
+          "mesh": "/Game/PlankTown/Player/JungleTotemScout/JungleTotemScout.JungleTotemScout"
+        },
+        {
+          "case": "pickup_customize_drop_repick",
+          "name": "StrawHat",
+          "color": 1,
+          "size": 1.0499999523162842
+        },
+        {
+          "case": "pickup_customize_drop_repick",
+          "name": "FisherHat",
+          "color": 1,
+          "size": 1.0499999523162842
+        },
+        {
+          "case": "pickup_customize_drop_repick",
+          "name": "MushroomCap",
+          "color": 1,
+          "size": 1.0499999523162842
+        },
+        {
+          "case": "pickup_customize_drop_repick",
+          "name": "FestiveHeaddress",
+          "color": 1,
+          "size": 1.0499999523162842
+        },
+        {
+          "case": "range_and_invalid_style_rejected"
+        }
+      ]
+    },
+    "motion": {
+      "passed": true,
+      "error": null,
+      "results": [
+        {
+          "case": "locomotion_with_headpiece",
+          "distance_cm": 608.475865428109
+        },
+        {
+          "case": "rifle_pickup_fire_reload_on_scout_visual",
+          "ammo": 30
+        }
+      ]
+    },
+    "network": {
+      "passed": true,
+      "error": null,
+      "mode": "two-player listen-server PIE",
+      "results": [
+        "owning_client_pickup_and_observer_attachment",
+        "color_material_and_size_replicated",
+        "client_drop_and_world_style_replicated",
+        "contested_pickup_has_one_winner_and_preserves_style"
+      ]
+    }
+  },
+  "rig": {
+    "passed": true,
+    "name": "JungleTotemScout",
+    "bones": 78,
+    "vertices": 44904,
+    "unweighted_vertices": 0,
+    "max_influences": 4,
+    "finger_chains": {
+      "thumb_l": {
+        "thumb_01_l": 818,
+        "thumb_02_l": 175,
+        "thumb_03_l": 113
+      },
+      "middle_l": {
+        "middle_01_l": 217,
+        "middle_02_l": 223,
+        "middle_03_l": 128
+      },
+      "ring_l": {
+        "ring_01_l": 146,
+        "ring_02_l": 186,
+        "ring_03_l": 148
+      },
+      "pinky_l": {
+        "pinky_01_l": 168,
+        "pinky_02_l": 161,
+        "pinky_03_l": 145
+      },
+      "thumb_r": {
+        "thumb_01_r": 804,
+        "thumb_02_r": 185,
+        "thumb_03_r": 125
+      },
+      "middle_r": {
+        "middle_01_r": 203,
+        "middle_02_r": 221,
+        "middle_03_r": 140
+      },
+      "ring_r": {
+        "ring_01_r": 156,
+        "ring_02_r": 223,
+        "ring_03_r": 151
+      },
+      "pinky_r": {
+        "pinky_01_r": 181,
+        "pinky_02_r": 192,
+        "pinky_03_r": 123
+      }
+    },
+    "finger_pose_vertices_changed": 2738,
+    "mesh_bounds_metres": {
+      "min": [
+        -0.9079606533050537,
+        -0.3595862090587616,
+        0.00013590946036856622
+      ],
+      "max": [
+        0.9068676233291626,
+        0.36359456181526184,
+        1.799902319908142
+      ]
+    },
+    "anatomy": "Four digits per hand: thumb and three fingers. ARP four-digit names are thumb/middle/ring/pinky."
+  },
+  "source_assets": {
+    "passed": true,
+    "deliveries": [
+      {
+        "name": "FestiveHeaddress",
+        "source_id": "1011150842",
+        "files_verified": 5
+      },
+      {
+        "name": "FisherHat",
+        "source_id": "1011150751",
+        "files_verified": 5
+      },
+      {
+        "name": "MushroomCap",
+        "source_id": "1011150827",
+        "files_verified": 5
+      },
+      {
+        "name": "StrawHat",
+        "source_id": "1011150806",
+        "files_verified": 5
+      },
+      {
+        "name": "JungleTotemScout",
+        "source_id": "1011150722",
+        "files_verified": 5
+      }
+    ],
+    "lfs_source_assets": 44
+  },
+  "scope": "Editor build, FBX round-trip/skin validation, standalone and two-player listen-server PIE. Packaged builds and dedicated servers were not tested."
+}

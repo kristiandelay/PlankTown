@@ -6,7 +6,7 @@ import traceback
 from pathlib import Path
 import unreal as u
 
-visual_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent / 'Artifacts/VisualOverride'
+visual_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1] / 'Artifacts/VisualOverride'
 visual_out.mkdir(parents=True, exist_ok=True)
 visual_widget = u.get_editor_subsystem(u.EditorUtilitySubsystem).spawn_and_register_tab(u.load_asset('/Game/Widgets/GameAnimationWidget'))
 visual_test = {'phase':'setup', 'index':0, 'angle':0, 'next':0, 'results':[], 'busy':False, 'deadline':time.monotonic()+240}

@@ -1,0 +1,39 @@
+{
+  "name": "FestiveHeaddress",
+  "original_archive_name": "Meshy_AI_Festive_Headdress_1011150842_texture_fbx.zip",
+  "archive_path": "Resources/Headpieces/FestiveHeaddress.zip",
+  "archive_sha256": "f1fcfccea6d11f105c770ca5636868c8666aedad4a76cfc86bccd05ba2996cee",
+  "files": [
+    {
+      "original": "Meshy_AI_Festive_Headdress_1011150842_texture_fbx/Meshy_AI_Festive_Headdress_1011150842_texture.fbx",
+      "file": "FestiveHeaddress.fbx",
+      "bytes": 71340364,
+      "sha256": "9c5e38542dd7ee9dd01840deafe0f70c70dcae1de9314cdda551aa0ff8a95edb"
+    },
+    {
+      "original": "Meshy_AI_Festive_Headdress_1011150842_texture_fbx/Meshy_AI_Festive_Headdress_1011150842_texture.png",
+      "file": "FestiveHeaddress_BaseColor.png",
+      "bytes": 6665010,
+      "sha256": "00fd550368490451a659efea4239441ffb1b526c5030746d7defcc65e29d0e81"
+    },
+    {
+      "original": "Meshy_AI_Festive_Headdress_1011150842_texture_fbx/Meshy_AI_Festive_Headdress_1011150842_texture_metallic.png",
+      "file": "FestiveHeaddress_Metallic.png",
+      "bytes": 29568,
+      "sha256": "285ba2d70127f90c4a31623f0a1856d1156a09db159097d501a4a04078da7378"
+    },
+    {
+      "original": "Meshy_AI_Festive_Headdress_1011150842_texture_fbx/Meshy_AI_Festive_Headdress_1011150842_texture_normal.png",
+      "file": "FestiveHeaddress_Normal.png",
+      "bytes": 5013973,
+      "sha256": "62e0fb5d0f03ef1f17b42819e6c6fed3b802f85de93dca057c494c02890e3bcc"
+    },
+    {
+      "original": "Meshy_AI_Festive_Headdress_1011150842_texture_fbx/Meshy_AI_Festive_Headdress_1011150842_texture_roughness.png",
+      "file": "FestiveHeaddress_Roughness.png",
+      "bytes": 1395136,
+      "sha256": "3cbe0ec1c29a375eb7c68329b6627cf75625cb6cafc06549a96a5795bfd66ddc"
+    }
+  ],
+  "source_id": "1011150842"
+}

@@ -1,0 +1,39 @@
+{
+  "name": "FisherHat",
+  "original_archive_name": "Meshy_AI_Fisher_Hat_1011150751_texture_fbx.zip",
+  "archive_path": "Resources/Headpieces/FisherHat.zip",
+  "archive_sha256": "ef8b291f86aae1e39905820dc07ba567ca8d0af1a771325136ab8beeb9745102",
+  "files": [
+    {
+      "original": "Meshy_AI_Fisher_Hat_1011150751_texture_fbx/Meshy_AI_Fisher_Hat_1011150751_texture.fbx",
+      "file": "FisherHat.fbx",
+      "bytes": 59740844,
+      "sha256": "9ae3c120db6684e51192ef82547fce2c1bd0056c08e915577c3780e21c812363"
+    },
+    {
+      "original": "Meshy_AI_Fisher_Hat_1011150751_texture_fbx/Meshy_AI_Fisher_Hat_1011150751_texture.png",
+      "file": "FisherHat_BaseColor.png",
+      "bytes": 5669728,
+      "sha256": "9fe57bfb5753178481037ffe5217c18e57f403495b2fd964133397c534a9c733"
+    },
+    {
+      "original": "Meshy_AI_Fisher_Hat_1011150751_texture_fbx/Meshy_AI_Fisher_Hat_1011150751_texture_metallic.png",
+      "file": "FisherHat_Metallic.png",
+      "bytes": 27782,
+      "sha256": "6fc4ff59ec944615f883cff9b603074afd73d50b608d10cbbb59193af0d13e3d"
+    },
+    {
+      "original": "Meshy_AI_Fisher_Hat_1011150751_texture_fbx/Meshy_AI_Fisher_Hat_1011150751_texture_normal.png",
+      "file": "FisherHat_Normal.png",
+      "bytes": 4008600,
+      "sha256": "8dcf48ced9c68354703991462d340a35646f6a83c4cf3d8632282f7a42f80d6c"
+    },
+    {
+      "original": "Meshy_AI_Fisher_Hat_1011150751_texture_fbx/Meshy_AI_Fisher_Hat_1011150751_texture_roughness.png",
+      "file": "FisherHat_Roughness.png",
+      "bytes": 1392005,
+      "sha256": "bd1c1d4fc24549c3b2424bf653ceb210c0aa8f3d314db37b13054f2a3eba190c"
+    }
+  ],
+  "source_id": "1011150751"
+}

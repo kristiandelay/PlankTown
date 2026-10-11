@@ -1,0 +1,39 @@
+{
+  "name": "MushroomCap",
+  "original_archive_name": "Meshy_AI_Mushroom_Cap_1011150827_texture_fbx.zip",
+  "archive_path": "Resources/Headpieces/MushroomCap.zip",
+  "archive_sha256": "b71b1cada33b604ce0890d4c0de6bf501c3851aa87a0aed59f37c85012f75d7d",
+  "files": [
+    {
+      "original": "Meshy_AI_Mushroom_Cap_1011150827_texture_fbx/Meshy_AI_Mushroom_Cap_1011150827_texture.fbx",
+      "file": "MushroomCap.fbx",
+      "bytes": 33101052,
+      "sha256": "0721df932364eb54520de155fec527eb4a0888f641b1e44dfa7bebb2cb3693bf"
+    },
+    {
+      "original": "Meshy_AI_Mushroom_Cap_1011150827_texture_fbx/Meshy_AI_Mushroom_Cap_1011150827_texture.png",
+      "file": "MushroomCap_BaseColor.png",
+      "bytes": 4667590,
+      "sha256": "09ee0ee691aca03abc6c1525583dd9db9d0c321f0ecdb48c4b2e01e0fe6a150d"
+    },
+    {
+      "original": "Meshy_AI_Mushroom_Cap_1011150827_texture_fbx/Meshy_AI_Mushroom_Cap_1011150827_texture_metallic.png",
+      "file": "MushroomCap_Metallic.png",
+      "bytes": 20704,
+      "sha256": "0ba84325d2ea75aeaeb19bcb967935037711f98820bd8ad44dc36bad203b028d"
+    },
+    {
+      "original": "Meshy_AI_Mushroom_Cap_1011150827_texture_fbx/Meshy_AI_Mushroom_Cap_1011150827_texture_normal.png",
+      "file": "MushroomCap_Normal.png",
+      "bytes": 3166789,
+      "sha256": "18edce54ee801059bb0532e3e4c4f339d68892bbdff4d8c2704599e8dd24f021"
+    },
+    {
+      "original": "Meshy_AI_Mushroom_Cap_1011150827_texture_fbx/Meshy_AI_Mushroom_Cap_1011150827_texture_roughness.png",
+      "file": "MushroomCap_Roughness.png",
+      "bytes": 1108454,
+      "sha256": "c4ec0922b2471f70d2a65b3f2cd454a12fc0efab657e340fae6a3606f476ead2"
+    }
+  ],
+  "source_id": "1011150827"
+}

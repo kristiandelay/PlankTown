@@ -1,6 +1,6 @@
 """Exercise the real merged pawn through its mapped Enhanced Input actions in PIE."""
 import math
-test_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/GymTests'
+test_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/GymTests'
 test_out.mkdir(parents=True, exist_ok=True)
 test_world = u.EditorLevelLibrary.get_pie_worlds(False)[0]
 test_pawn = u.GameplayStatics.get_player_pawn(test_world, 0)

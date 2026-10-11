@@ -1,6 +1,6 @@
 """Mapped-input PIE checks for paired matching, passive ragdoll and recovery."""
 import math
-physical_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/PhysicalTests'
+physical_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/PhysicalTests'
 physical_out.mkdir(parents=True,exist_ok=True)
 physical_test={'phase':'setup','next':0,'results':[],'samples':[],'deadline':time.monotonic()+180,'busy':False,'index':0}
 

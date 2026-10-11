@@ -7,7 +7,7 @@ from pathlib import Path
 import unreal as u
 
 visual_net={'phase':'setup','index':0,'next':0,'busy':False,'results':[],'deadline':time.monotonic()+180}
-visual_net_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/VisualOverride/network.json'
+visual_net_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/VisualOverride/network.json'
 visual_net_widget=u.get_editor_subsystem(u.EditorUtilitySubsystem).spawn_and_register_tab(u.load_asset('/Game/Widgets/GameAnimationWidget'))
 visual_net_names=['Echo','Twinblast','Kellan','Manny','Quinn','UE4_Mannequin']
 

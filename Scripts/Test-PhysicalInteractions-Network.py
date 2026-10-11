@@ -6,7 +6,7 @@ from pathlib import Path
 import unreal as u
 
 net_physical={'phase':'position','next':0,'index':0,'results':[],'deadline':time.monotonic()+160,'busy':False}
-net_physical_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/PhysicalTests/network-physical.json'
+net_physical_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/PhysicalTests/network-physical.json'
 
 def np_input(pawn,name,value):
     pc=pawn.get_controller()

@@ -5,7 +5,7 @@ import unreal as u
 
 lib=u.EditorAssetLibrary
 asset_tools=u.AssetToolsHelpers.get_asset_tools()
-root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent
+root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]
 
 def save(obj):
     if isinstance(obj,u.Blueprint):

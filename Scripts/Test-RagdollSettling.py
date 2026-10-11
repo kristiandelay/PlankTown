@@ -11,7 +11,7 @@ import time
 import traceback
 import unreal as u
 
-settle_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent / 'Artifacts/PhysicalTests'
+settle_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1] / 'Artifacts/PhysicalTests'
 settle_out.mkdir(parents=True, exist_ok=True)
 settle_test = {'phase': 'setup', 'index': 0, 'next': 0, 'results': [], 'samples': [],
                'busy': False, 'deadline': time.monotonic() + 160}

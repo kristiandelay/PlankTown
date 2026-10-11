@@ -23,3 +23,4 @@
 *.locres filter=lfs diff=lfs merge=lfs -text
 *.locmeta filter=lfs diff=lfs merge=lfs -text
 *.replay filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text

@@ -1,6 +1,6 @@
 """PIE integration checks driven through the baseline's actual Enhanced Input actions."""
 import math
-baseline_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/BaselineTests'
+baseline_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/BaselineTests'
 baseline_out.mkdir(parents=True,exist_ok=True)
 baseline_test={'phase':'pickup','next':0,'results':[],'busy':False,'wall_deadline':time.monotonic()+300}
 

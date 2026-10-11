@@ -1,6 +1,6 @@
 """Fresh single-player PIE: relaxed carry, fire stance and animated foot turns."""
 import math
-stance_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/StanceTests'
+stance_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/StanceTests'
 stance_out.mkdir(parents=True,exist_ok=True)
 stance={'phase':'equip','next':0,'results':[],'busy':False,'deadline':time.monotonic()+180}
 

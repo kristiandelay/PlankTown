@@ -1,6 +1,6 @@
 """Ten real PIE start/stop cycles, checking Lyra ownership and duplicate components."""
 restart_state = {'phase': 'start', 'next': time.monotonic()+1, 'results': [], 'busy': False}
-restart_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/GymTests/restarts.json'
+restart_out = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/GymTests/restarts.json'
 restart_out.parent.mkdir(parents=True,exist_ok=True)
 
 def restart_finish(error=None):

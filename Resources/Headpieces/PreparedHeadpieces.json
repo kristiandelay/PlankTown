@@ -1,0 +1,30 @@
+[
+  {
+    "name": "StrawHat",
+    "source_triangles": 1774558,
+    "game_triangles": 15998,
+    "width_metres": 1.22,
+    "scalp_offset_metres": -0.08
+  },
+  {
+    "name": "FisherHat",
+    "source_triangles": 1295962,
+    "game_triangles": 16000,
+    "width_metres": 1.03,
+    "scalp_offset_metres": -0.22
+  },
+  {
+    "name": "MushroomCap",
+    "source_triangles": 679730,
+    "game_triangles": 15998,
+    "width_metres": 0.94,
+    "scalp_offset_metres": -0.1
+  },
+  {
+    "name": "FestiveHeaddress",
+    "source_triangles": 1542222,
+    "game_triangles": 16000,
+    "width_metres": 1.2,
+    "scalp_offset_metres": -0.63
+  }
+]

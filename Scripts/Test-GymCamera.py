@@ -4,7 +4,7 @@ camera_test = {'phase': 'clear', 'next':0, 'result':{}, 'busy':False}
 def camera_finish(error=None):
     u.unregister_slate_post_tick_callback(camera_test['handle'])
     report = {'passed':error is None,'error':error,**camera_test['result']}
-    output=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/GymTests/camera.json'
+    output=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/GymTests/camera.json'
     output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text(json.dumps(report,indent=2))
     u.log('CR_GYM_CAMERA_RESULT '+json.dumps(report))

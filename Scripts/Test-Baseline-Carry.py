@@ -1,6 +1,6 @@
 """Compare relaxed body bones against a simultaneous, unmodified GASP retarget."""
 import math
-carry_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/CarryTests'
+carry_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/CarryTests'
 carry_out.mkdir(parents=True,exist_ok=True)
 carry_test={'phase':'setup','next':0,'index':0,'results':[],'busy':False,'deadline':time.monotonic()+150}
 

@@ -19,7 +19,7 @@ def auto_getup_pose(mesh):
 def auto_getup_finish(error=None):
     u.unregister_slate_post_tick_callback(auto_getup['handle'])
     auto_getup['finished'] = True
-    output = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent / 'Artifacts/PhysicalTests/auto-getup-continuity.json'
+    output = Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1] / 'Artifacts/PhysicalTests/auto-getup-continuity.json'
     output.write_text(json.dumps({'passed': error is None, 'error': error,
                                  'results': auto_getup['results']}, indent=2))
     print('AUTO_GETUP_CONTINUITY_COMPLETE', error)

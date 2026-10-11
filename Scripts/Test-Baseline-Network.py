@@ -1,6 +1,6 @@
 """Two-player listen-server PIE smoke test: owning-client pickup, fire, reload and drop."""
 network={'phase':'place','next':0,'results':[],'busy':False,'deadline':time.monotonic()+180}
-network_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/BaselineTests/network.json'
+network_out=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/BaselineTests/network.json'
 
 def network_context():
     worlds=u.EditorLevelLibrary.get_pie_worlds(False)

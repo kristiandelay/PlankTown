@@ -26,7 +26,7 @@ def net_aim_finish(error=None):
         _,host,client,_,_=net_aim_context()
         net_aim_input(host,0);net_aim_input(client,0)
     except Exception:pass
-    output=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parent/'Artifacts/AimTests/network-aim.json'
+    output=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).parents[1]/'Artifacts/AimTests/network-aim.json'
     output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text(json.dumps({'passed':error is None,'error':error,'results':net_aim['results']},indent=2))
 
