@@ -110,7 +110,7 @@ for category,names in [('Player',['JungleTotemScout']),('Headpieces',['StrawHat'
             definition.set_editor_property('mesh',mesh)
             # Seat the everyday hats closer to the scalp; the headdress keeps
             # its original fit. The mushroom offset also buries its stem.
-            wear_z={'StrawHat':-12,'FisherHat':-10,'MushroomCap':-27,'FestiveHeaddress':0}
+            wear_z={'StrawHat':-16,'FisherHat':-14,'MushroomCap':-31,'FestiveHeaddress':0}
             definition.set_editor_property('wear_transform',u.Transform(location=u.Vector(0,0,wear_z[name])))
             save(definition)
             factory=u.BlueprintFactory()
