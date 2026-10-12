@@ -1,0 +1,39 @@
+{
+  "name": "IslandSpiritHelmet",
+  "original_archive_name": "Meshy_AI_Island_Spirit_Helmet_1012135222_texture_fbx.zip",
+  "source_id": "1012135222",
+  "archive_path": "Resources/Headpieces/IslandSpiritHelmet.zip",
+  "archive_sha256": "2439f5890c62c25f4c7d5567f6af7b7e045662e6bc2d43a5954dae44c2ec1cda",
+  "files": [
+    {
+      "original": "Meshy_AI_Island_Spirit_Helmet_1012135222_texture_fbx/Meshy_AI_Island_Spirit_Helmet_1012135222_texture.fbx",
+      "file": "IslandSpiritHelmet.fbx",
+      "bytes": 82165948,
+      "sha256": "9ce0af61c760e33b2536c94279c10d2296b57bebace7889e8c2d361c1a8d8a38"
+    },
+    {
+      "original": "Meshy_AI_Island_Spirit_Helmet_1012135222_texture_fbx/Meshy_AI_Island_Spirit_Helmet_1012135222_texture.png",
+      "file": "IslandSpiritHelmet_BaseColor.png",
+      "bytes": 6583377,
+      "sha256": "0cedeeb19f53f2aa70407b83a067c72fc2b0f9a8196cc824da761a5cd9c6c24d"
+    },
+    {
+      "original": "Meshy_AI_Island_Spirit_Helmet_1012135222_texture_fbx/Meshy_AI_Island_Spirit_Helmet_1012135222_texture_metallic.png",
+      "file": "IslandSpiritHelmet_Metallic.png",
+      "bytes": 19198,
+      "sha256": "961c612aa24b2531c60b7a9c1a4f578a520a5c1a9544a3fcccccefdcccfea10a"
+    },
+    {
+      "original": "Meshy_AI_Island_Spirit_Helmet_1012135222_texture_fbx/Meshy_AI_Island_Spirit_Helmet_1012135222_texture_normal.png",
+      "file": "IslandSpiritHelmet_Normal.png",
+      "bytes": 5270483,
+      "sha256": "30032b72925a8966f4b510e33eb29fb2d8e841aeeb4b25728e55990ac318aefb"
+    },
+    {
+      "original": "Meshy_AI_Island_Spirit_Helmet_1012135222_texture_fbx/Meshy_AI_Island_Spirit_Helmet_1012135222_texture_roughness.png",
+      "file": "IslandSpiritHelmet_Roughness.png",
+      "bytes": 1499055,
+      "sha256": "7304e3fd5e4487dde4a83deeed3709be516fda1e3ae8335282efc8dd53dd1ceb"
+    }
+  ]
+}

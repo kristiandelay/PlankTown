@@ -38,9 +38,14 @@ def import_file(filename,folder,name,options=None):
     return obj
 
 u.SystemLibrary.execute_console_command(None,'Interchange.FeatureFlags.Import.FBX 0')
+# Pass IMPORT_NAMES through runpy to import a delivery without rebuilding other assets.
+HEADPIECES=['StrawHat','FisherHat','MushroomCap','FestiveHeaddress','IslandSpiritHelmet']
+selected=set(globals().get('IMPORT_NAMES',[]))
+assert selected <= set(HEADPIECES+['JungleTotemScout']), selected
 records=[]
-for category,names in [('Player',['JungleTotemScout']),('Headpieces',['StrawHat','FisherHat','MushroomCap','FestiveHeaddress'])]:
+for category,names in [('Player',['JungleTotemScout']),('Headpieces',HEADPIECES)]:
     for name in names:
+        if selected and name not in selected: continue
         source=ROOT/'Resources'/category/name
         skeletal=category=='Player'
         if skeletal: assert json.loads((source/'RigValidation.json').read_text())['passed']
@@ -106,11 +111,11 @@ for category,names in [('Player',['JungleTotemScout']),('Headpieces',['StrawHat'
             factory=u.DataAssetFactory()
             factory.set_editor_property('data_asset_class',u.PlankTownHeadpieceDefinition)
             definition=asset('DA_'+name,folder,u.PlankTownHeadpieceDefinition,factory)
-            definition.set_editor_property('display_name',u.Text({'StrawHat':'Straw Hat','FisherHat':'Fisher Hat','MushroomCap':'Mushroom Cap','FestiveHeaddress':'Festive Headdress'}[name]))
+            definition.set_editor_property('display_name',u.Text({'StrawHat':'Straw Hat','FisherHat':'Fisher Hat','MushroomCap':'Mushroom Cap','FestiveHeaddress':'Festive Headdress','IslandSpiritHelmet':'Island Spirit Helmet'}[name]))
             definition.set_editor_property('mesh',mesh)
             # Seat the everyday hats closer to the scalp; the headdress keeps
             # its original fit. The mushroom offset also buries its stem.
-            wear_z={'StrawHat':-16,'FisherHat':-14,'MushroomCap':-31,'FestiveHeaddress':0}
+            wear_z={'StrawHat':-16,'FisherHat':-14,'MushroomCap':-31,'FestiveHeaddress':0,'IslandSpiritHelmet':0}
             definition.set_editor_property('wear_transform',u.Transform(location=u.Vector(0,0,wear_z[name])))
             save(definition)
             factory=u.BlueprintFactory()
@@ -123,67 +128,69 @@ for category,names in [('Player',['JungleTotemScout']),('Headpieces',['StrawHat'
         save(mesh)
         records.append({'name':name,'mesh':mesh.get_path_name(),'material':material.get_path_name()})
 
-name='JungleTotemScout'
-folder='/Game/PlankTown/Player/'+name
-mesh=u.load_asset(folder+'/'+name)
-rig=asset('IK_'+name,folder,u.IKRigDefinition,u.IKRigDefinitionFactory())
-controller=u.IKRigController.get_controller(rig)
-assert controller.set_skeletal_mesh(mesh)
-assert controller.apply_auto_generated_retarget_definition()
-assert controller.apply_auto_fbik()
-save(rig)
-retarget=duplicate('/Game/Baseline/Animations/VisualOverrides/RTG_Manny_to_UE5_Mannequin',folder+'/RTG_Manny_to_'+name)
-controller=u.IKRetargeterController.get_controller(retarget)
-controller.set_ik_rig(u.RetargetSourceOrTarget.TARGET,rig)
-controller.set_preview_mesh(u.RetargetSourceOrTarget.TARGET,mesh)
-runpy.run_path(str(ROOT/'Scripts/Configure-PlayerRetarget.py'))['configure_player_retarget'](retarget,rig)
-animation=u.load_asset('/Game/Baseline/Animations/ABP_BaselineVisualRetarget')
-mapping=cdo(animation).get_editor_property('IKRetargeter_Map')
-mapping['RTG_Manny_to_'+name]=retarget
-cdo(animation).set_editor_property('IKRetargeter_Map',mapping)
-save(animation)
-visual=duplicate('/Game/Blueprints/RetargetedCharacters/BP_Manny',folder+'/BP_'+name)
-sub=u.get_engine_subsystem(u.SubobjectDataSubsystem)
-data=u.SubobjectDataBlueprintFunctionLibrary
-seen=set()
-for handle in sub.k2_gather_subobject_data_for_blueprint(visual):
-    component=data.get_object_for_blueprint(data.get_data(handle),visual)
-    if isinstance(component,u.SkeletalMeshComponent) and component.get_path_name() not in seen:
-        component.set_editor_property('skeletal_mesh_asset',mesh)
-        component.set_editor_property('anim_class',animation.generated_class())
-        component.set_editor_property('component_tags',['RTG_Manny_to_'+name])
-        seen.add(component.get_path_name())
-assert len(seen)==1,seen
-save(visual)
-catalog=u.load_asset('/Game/Blueprints/GM_Sandbox')
-entries=list(cdo(catalog).get_editor_property('VisualOverrides_Soft'))
-if not any(entry and entry.get_path_name()==visual.generated_class().get_path_name() for entry in entries):
-    entries.append(visual.generated_class())
-cdo(catalog).set_editor_property('VisualOverrides_Soft',entries)
-save(catalog)
-# Default selected visual also remains available through the sample's widget.
-pawn=u.load_asset('/Game/Crusader/Characters/B_CRTraversalPawn')
-for handle in sub.k2_gather_subobject_data_for_blueprint(pawn):
-    component=data.get_object_for_blueprint(data.get_data(handle),pawn)
-    if isinstance(component,u.ChildActorComponent) and component.get_name().startswith('SelectedVisualOverride'):
-        component.set_editor_property('child_actor_class',visual.generated_class())
-save(pawn)
+if not selected or 'JungleTotemScout' in selected:
+    name='JungleTotemScout'
+    folder='/Game/PlankTown/Player/'+name
+    mesh=u.load_asset(folder+'/'+name)
+    rig=asset('IK_'+name,folder,u.IKRigDefinition,u.IKRigDefinitionFactory())
+    controller=u.IKRigController.get_controller(rig)
+    assert controller.set_skeletal_mesh(mesh)
+    assert controller.apply_auto_generated_retarget_definition()
+    assert controller.apply_auto_fbik()
+    save(rig)
+    retarget=duplicate('/Game/Baseline/Animations/VisualOverrides/RTG_Manny_to_UE5_Mannequin',folder+'/RTG_Manny_to_'+name)
+    controller=u.IKRetargeterController.get_controller(retarget)
+    controller.set_ik_rig(u.RetargetSourceOrTarget.TARGET,rig)
+    controller.set_preview_mesh(u.RetargetSourceOrTarget.TARGET,mesh)
+    runpy.run_path(str(ROOT/'Scripts/Configure-PlayerRetarget.py'))['configure_player_retarget'](retarget,rig)
+    animation=u.load_asset('/Game/Baseline/Animations/ABP_BaselineVisualRetarget')
+    mapping=cdo(animation).get_editor_property('IKRetargeter_Map')
+    mapping['RTG_Manny_to_'+name]=retarget
+    cdo(animation).set_editor_property('IKRetargeter_Map',mapping)
+    save(animation)
+    visual=duplicate('/Game/Blueprints/RetargetedCharacters/BP_Manny',folder+'/BP_'+name)
+    sub=u.get_engine_subsystem(u.SubobjectDataSubsystem)
+    data=u.SubobjectDataBlueprintFunctionLibrary
+    seen=set()
+    for handle in sub.k2_gather_subobject_data_for_blueprint(visual):
+        component=data.get_object_for_blueprint(data.get_data(handle),visual)
+        if isinstance(component,u.SkeletalMeshComponent) and component.get_path_name() not in seen:
+            component.set_editor_property('skeletal_mesh_asset',mesh)
+            component.set_editor_property('anim_class',animation.generated_class())
+            component.set_editor_property('component_tags',['RTG_Manny_to_'+name])
+            seen.add(component.get_path_name())
+    assert len(seen)==1,seen
+    save(visual)
+    catalog=u.load_asset('/Game/Blueprints/GM_Sandbox')
+    entries=list(cdo(catalog).get_editor_property('VisualOverrides_Soft'))
+    if not any(entry and entry.get_path_name()==visual.generated_class().get_path_name() for entry in entries):
+        entries.append(visual.generated_class())
+    cdo(catalog).set_editor_property('VisualOverrides_Soft',entries)
+    save(catalog)
+    # Default selected visual also remains available through the sample's widget.
+    pawn=u.load_asset('/Game/Crusader/Characters/B_CRTraversalPawn')
+    for handle in sub.k2_gather_subobject_data_for_blueprint(pawn):
+        component=data.get_object_for_blueprint(data.get_data(handle),pawn)
+        if isinstance(component,u.ChildActorComponent) and component.get_name().startswith('SelectedVisualOverride'):
+            component.set_editor_property('child_actor_class',visual.generated_class())
+    save(pawn)
 
-mapping=u.load_asset('/Game/Baseline/Input/IMC_Baseline')
-for name,key_name in [('DropHeadpiece','H'),('HeadpieceColor','J'),('HeadpieceLarger','RightBracket'),('HeadpieceSmaller','LeftBracket')]:
-    action=asset('IA_'+name,'/Game/PlankTown/Input',u.InputAction,u.InputAction_Factory())
-    action.set_editor_property('value_type',u.InputActionValueType.BOOLEAN)
-    save(action)
-    mapping.unmap_all_keys_from_action(action)
-    key=u.Key()
-    assert key.import_text(key_name)
-    mapping.map_key(action,key)
-save(mapping)
+    mapping=u.load_asset('/Game/Baseline/Input/IMC_Baseline')
+    for name,key_name in [('DropHeadpiece','H'),('HeadpieceColor','J'),('HeadpieceLarger','RightBracket'),('HeadpieceSmaller','LeftBracket')]:
+        action=asset('IA_'+name,'/Game/PlankTown/Input',u.InputAction,u.InputAction_Factory())
+        action.set_editor_property('value_type',u.InputActionValueType.BOOLEAN)
+        save(action)
+        mapping.unmap_all_keys_from_action(action)
+        key=u.Key()
+        assert key.import_text(key_name)
+        mapping.map_key(action,key)
+    save(mapping)
 levels=u.get_editor_subsystem(u.LevelEditorSubsystem)
 assert levels.load_level('/Game/Maps/L_TraversalGym')
 actors=u.get_editor_subsystem(u.EditorActorSubsystem)
 existing={a.get_actor_label():a for a in actors.get_all_level_actors()}
-for index,name in enumerate(['StrawHat','FisherHat','MushroomCap','FestiveHeaddress']):
+for index,name in enumerate(HEADPIECES):
+    if selected and name not in selected: continue
     label='PlankTown_'+name
     actor=existing.get(label)
     if not actor:
@@ -191,5 +198,11 @@ for index,name in enumerate(['StrawHat','FisherHat','MushroomCap','FestiveHeaddr
         actor=actors.spawn_actor_from_class(cls,u.Vector(1800+index*160,-1550,100))
         actor.set_actor_label(label)
 assert levels.save_current_level()
-(ROOT/'Resources/PlankTownImport.json').write_text(json.dumps({'imported':True,'assets':records,'visual_override_index':len(entries)-1},indent=2)+'\n')
+report_path=ROOT/'Resources/PlankTownImport.json'
+report=json.loads(report_path.read_text()) if report_path.exists() else {}
+merged={entry['name']:entry for entry in report.get('assets',[])}
+merged.update({entry['name']:entry for entry in records})
+report.update(imported=True,assets=list(merged.values()))
+if not selected or 'JungleTotemScout' in selected: report['visual_override_index']=len(entries)-1
+report_path.write_text(json.dumps(report,indent=2)+'\n',newline='\n')
 print('PLANKTOWN_IMPORT_COMPLETE')

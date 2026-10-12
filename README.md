@@ -1,6 +1,6 @@
 # PlankTown
 
-Unreal Engine 5.8 project based on the Lyra/GASP template, with the Jungle Totem Scout player, four customizable headpieces, and the rideable Moku mount.
+Unreal Engine 5.8 project based on the Lyra/GASP template, with the Jungle Totem Scout player, five customizable headpieces, and the rideable Moku mount.
 
 Open `Src/PlankTown/PlankTown.uproject` or `Open-Traversal.cmd`, then press Play. The scout is the default visual override in the traversal gym and is also available in the Game Animation Widget. Native Lyra module names and inherited content paths are retained to preserve asset references.
 
@@ -20,7 +20,7 @@ The entire workspace belongs to this repository. Unreal assets, FBX exports, Ble
 
 ## Headpieces
 
-Straw Hat, Fisher Hat, Mushroom Cap, and Festive Headdress pickups are placed beside the gym's equipment area.
+Straw Hat, Fisher Hat, Mushroom Cap, Festive Headdress, and Island Spirit Helmet pickups are placed beside the gym's equipment area. The football helmet sits at the end of the row, beside the headdress, and is fitted around the scout's head with its faceguard in front of the face.
 
 | Key | Action |
 | --- | --- |
@@ -51,11 +51,13 @@ The camera ignores Moku's capsule and mesh, so orbiting the rider does not push 
 
 `Resources/Player/JungleTotemScout/` contains the untouched normalized `Source/`, editable Auto-Rig Pro `.blend`, game-ready `Export/`, and rig validation report. The supplied character has four digits per hand, all rigged and weighted. ARP uses thumb/middle/ring/pinky names for its four-digit preset. The exported body has 90,000 triangles and at most four influences per vertex.
 
-Each `Resources/Headpieces/<Name>/` folder contains the same source/scene/export separation. Headpiece exports have about 16,000 triangles each. ZIP bytes remain unchanged; `SourceManifest.json` records the original delivery names, source IDs and hashes. Texture names use `_BaseColor`, `_Normal`, `_Metallic`, and `_Roughness`.
+Each `Resources/Headpieces/<Name>/` folder contains the same source/scene/export separation. Headpiece exports have about 16,000 triangles each; Island Spirit Helmet uses 24,000 to preserve the faceguard. ZIP bytes remain unchanged; `SourceManifest.json` records the original delivery names, source IDs and hashes. Texture names use `_BaseColor`, `_Normal`, `_Metallic`, and `_Roughness`.
 
 `Resources/Mount/MokuTheIslandRider/` contains Moku's normalized source files, editable Blender scene, skeletal FBX and idle/walk/run exports. Its fitted 20-bone quadruped rig includes three joints per leg, neck, head, tail and saddle, with automatic weights refined around the saddle. The game mesh has 100,000 triangles, no unweighted vertices and at most four influences per vertex; Unreal also has two reduced LODs. The four-beat walk and three-beat running canter use articulated knees, lifting/toe motion, body sway and head/tail follow-through. Foot contact timing matches the movement speeds.
 
 Preparation scripts require Blender 5.2 and the installed Auto-Rig Pro add-on. `Fit-PlayerAutoRig.py -- JungleTotemScout` runs in Blender with a viewport; skinning, headpiece preparation, and `Validate-PlayerRig.py` run in background mode. `Import-PlankTownAssets.py` runs inside Unreal and rebuilds the imported assets from the prepared exports.
+
+To rebuild only the helmet, run `Prepare-Headpieces.py -- IslandSpiritHelmet` in Blender background mode. In Unreal outside Play, run `runpy.run_path('C:/Development/Game/PlankTown/Scripts/Import-PlankTownAssets.py', init_globals={'IMPORT_NAMES':['IslandSpiritHelmet']})` after importing `runpy`. Selected imports preserve the other models and their recorded import entries.
 
 The import calls `Configure-PlayerRetarget.py` to assign the scout rig to every UE 5.8 retarget operation, map its toe chains, and align its rest pose. Ordinary arm animation preserves the scout's proportions; traversal contact curves can still blend toward the source hands. Run this configuration script outside Play to update the retargeter without reimporting the artwork.
 
@@ -63,7 +65,7 @@ For Moku, run `Prepare-Mount.py` in Blender background mode to rebuild the fitte
 
 ## Validation
 
-Build with `Scripts/Build-Editor.ps1`. For editor automation, open with `Scripts/Open-Traversal.ps1 -Automation`, then use `python Scripts/Send-Editor.py Scripts/Test-PlankTown.py`. The test starts PIE and exercises the default visual, all four pickups, customization, swaps, physics drops, re-pickup and invalid requests. Run `Test-PlankTown-Motion.py` in that PIE session to check movement and rifle pickup/fire/reload. Stop PIE before running `Test-PlankTown-Network.py`, which starts two-player PIE and checks replicated appearance, client drops and contested pickups. Reports and screenshots are written beneath `Artifacts/PlankTownTests`; the checked-in summary is `Resources/PlankTownValidation.json`.
+Build with `Scripts/Build-Editor.ps1`. For editor automation, open with `Scripts/Open-Traversal.ps1 -Automation`, then use `python Scripts/Send-Editor.py Scripts/Test-PlankTown.py`. The test starts PIE and exercises the default visual, all five pickups, customization, swaps, physics drops, re-pickup and invalid requests. Run `Test-PlankTown-Motion.py` in that PIE session to check movement and rifle pickup/fire/reload. Stop PIE before running `Test-PlankTown-Network.py`, which starts two-player PIE and checks replicated appearance, client drops and contested pickups. Reports and screenshots are written beneath `Artifacts/PlankTownTests`; the original project summary is `Resources/PlankTownValidation.json` and the helmet's validation is in `Resources/Headpieces/IslandSpiritHelmet/Validation.json`.
 
 Run `Test-PlankTown-Arms.py` outside Play to check actual shoulder/elbow/wrist motion in idle, jogging, rifle carry, aiming, firing, reloading, and both shoulder stances. It compares limb directions with the animated source, rejects raised idle arms and frozen arm swing, and captures each pose under `Artifacts/ArmFix`.
 

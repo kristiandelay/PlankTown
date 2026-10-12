@@ -26,5 +26,13 @@
     "game_triangles": 16000,
     "width_metres": 1.2,
     "scalp_offset_metres": -0.63
+  },
+  {
+    "name": "IslandSpiritHelmet",
+    "source_triangles": 1817702,
+    "game_triangles": 24000,
+    "width_metres": 1.08,
+    "scalp_offset_metres": -0.78,
+    "fore_aft_offset_metres": -0.1
   }
 ]

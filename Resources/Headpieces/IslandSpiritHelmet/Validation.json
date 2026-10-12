@@ -1,0 +1,90 @@
+{
+  "passed": true,
+  "validated_utc": "2026-10-12T14:08:48.212783+00:00",
+  "name": "IslandSpiritHelmet",
+  "engine": "5.8",
+  "source": {
+    "source_id": "1012135222",
+    "archive_sha256": "2439f5890c62c25f4c7d5567f6af7b7e045662e6bc2d43a5954dae44c2ec1cda",
+    "files_verified": 5,
+    "archive_bytes_preserved": true
+  },
+  "blender": {
+    "passed": true,
+    "triangles": 24000,
+    "textures": [
+      "IslandSpiritHelmet_BaseColor.png",
+      "IslandSpiritHelmet_Roughness.png",
+      "IslandSpiritHelmet_Metallic.png",
+      "IslandSpiritHelmet_Normal.png"
+    ],
+    "dimensions_metres": [
+      1.0800000429153442,
+      1.2181010246276855,
+      0.9620150327682495
+    ]
+  },
+  "fit": {
+    "width_metres": 1.08,
+    "scalp_offset_metres": -0.78,
+    "fore_aft_offset_metres": -0.1,
+    "default_size": 1.0,
+    "reviewed_views": [
+      "front",
+      "side",
+      "rear"
+    ],
+    "eye_opening_clear": true,
+    "faceguard_in_front_of_face": true
+  },
+  "unreal_references_verified": true,
+  "pickup_location_cm": [
+    2440,
+    -1550,
+    100
+  ],
+  "gameplay_mode": "standalone PIE",
+  "gameplay": {
+    "passed": true,
+    "error": null,
+    "results": [
+      {
+        "case": "default_visual_and_all_pickups",
+        "mesh": "/Game/PlankTown/Player/JungleTotemScout/JungleTotemScout.JungleTotemScout"
+      },
+      {
+        "case": "pickup_customize_drop_repick",
+        "name": "StrawHat",
+        "color": 1,
+        "size": 1.0499999523162842
+      },
+      {
+        "case": "pickup_customize_drop_repick",
+        "name": "FisherHat",
+        "color": 1,
+        "size": 1.0499999523162842
+      },
+      {
+        "case": "pickup_customize_drop_repick",
+        "name": "MushroomCap",
+        "color": 1,
+        "size": 1.0499999523162842
+      },
+      {
+        "case": "pickup_customize_drop_repick",
+        "name": "FestiveHeaddress",
+        "color": 1,
+        "size": 1.0499999523162842
+      },
+      {
+        "case": "pickup_customize_drop_repick",
+        "name": "IslandSpiritHelmet",
+        "color": 1,
+        "size": 1.0499999523162842
+      },
+      {
+        "case": "range_and_invalid_style_rejected"
+      }
+    ]
+  }
+}

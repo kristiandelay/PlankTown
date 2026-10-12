@@ -25,6 +25,11 @@
       "name": "FestiveHeaddress",
       "mesh": "/Game/PlankTown/Headpieces/FestiveHeaddress/FestiveHeaddress.FestiveHeaddress",
       "material": "/Game/PlankTown/Headpieces/FestiveHeaddress/M_FestiveHeaddress.M_FestiveHeaddress"
+    },
+    {
+      "name": "IslandSpiritHelmet",
+      "mesh": "/Game/PlankTown/Headpieces/IslandSpiritHelmet/IslandSpiritHelmet.IslandSpiritHelmet",
+      "material": "/Game/PlankTown/Headpieces/IslandSpiritHelmet/M_IslandSpiritHelmet.M_IslandSpiritHelmet"
     }
   ],
   "visual_override_index": 6

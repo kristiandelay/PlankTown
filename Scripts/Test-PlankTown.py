@@ -1,4 +1,4 @@
-"""PIE acceptance checks for the real character, input bindings and all four headpieces."""
+"""PIE acceptance checks for the real character, input bindings and all headpieces."""
 import unreal as u
 import json
 import time
@@ -9,7 +9,7 @@ pt_root=Path(u.Paths.convert_relative_path_to_full(u.Paths.project_dir())).paren
 pt_out=pt_root/'Artifacts/PlankTownTests'
 pt_out.mkdir(parents=True,exist_ok=True)
 pt={'phase':'setup','next':0,'index':0,'busy':False,'results':[], 'deadline':time.monotonic()+240}
-pt_names=['StrawHat','FisherHat','MushroomCap','FestiveHeaddress']
+pt_names=['StrawHat','FisherHat','MushroomCap','FestiveHeaddress','IslandSpiritHelmet']
 
 def pt_input(pawn,name,value):
     folder='/Game/Baseline/Input/' if name=='Interact' else '/Game/PlankTown/Input/'
@@ -47,10 +47,10 @@ def pt_tick(dt):
             assert mesh.is_visible() and not pawn.baseline_equipment.get_weapon_animation_mesh().is_visible()
             assert mesh.get_anim_instance() and mesh.get_bone_index('thumb_03_l')>=0
             assert mesh.does_socket_exist('HeadpieceSocket')
-            assert mesh.get_socket_location('head').z>100,'Retargeted head is not above ground'
+            assert mesh.get_socket_location('head').z>mesh.get_socket_location('pelvis').z+20,'Retargeted head is not above the hips'
             pickups=u.GameplayStatics.get_all_actors_of_class(world,u.PlankTownHeadpiecePickup)
-            assert len(pickups)==4,len(pickups)
-            pt['results'].append({'case':'default_visual_and_four_pickups','mesh':mesh.get_skinned_asset().get_path_name()})
+            assert len(pickups)==len(pt_names),len(pickups)
+            pt['results'].append({'case':'default_visual_and_all_pickups','mesh':mesh.get_skinned_asset().get_path_name()})
             pt.update(phase='place')
         elif phase=='place':
             name=pt_names[pt['index']]
@@ -107,7 +107,7 @@ def pt_tick(dt):
             assert hats.equipped.color_index==1 and abs(hats.equipped.size-1.05)<.001
             pt['results'].append({'case':'pickup_customize_drop_repick','name':pt_names[pt['index']],'color':1,'size':hats.equipped.size})
             pt['index']+=1
-            if pt['index']<4:pt.update(phase='place',next=now+.1)
+            if pt['index']<len(pt_names):pt.update(phase='place',next=now+.1)
             else:pt.update(phase='range',next=now+.1)
         elif phase=='range':
             pickup=u.GameplayStatics.get_all_actors_of_class(world,u.PlankTownHeadpiecePickup)[0]
